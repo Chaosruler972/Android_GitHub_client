@@ -14,6 +14,7 @@ import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.activities.RepoView_Activity
 import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import kotlinx.android.synthetic.main.fragment_repo_files.*
+import org.eclipse.egit.github.core.RepositoryContents
 import org.eclipse.egit.github.core.service.ContentsService
 import java.util.*
 
@@ -58,7 +59,16 @@ class repo_files_fragment : Fragment() {
             repo_url = GitHub_remote_service.get_repo_url(repo_name,user_name)!!
             val contentService = GitHub_remote_service.get_ContentService(repo_name,user_name)
             Log.d("Files_fragment","CS is " + contentService.toString())
-            val contents = GitHub_remote_service.get_content(repo_name,user_name)
+            val contents:MutableList<RepositoryContents>?
+            try
+            {
+                contents = GitHub_remote_service.get_content(repo_name,user_name)
+            }
+            catch (e:Exception)
+            {
+                Log.d("Repo Files","No contents")
+                return@Thread
+            }
             RepoView_Activity.act!!.runOnUiThread {
                 try {
                     repo_files_list.adapter = repo_files_arrayadapter(context, contents!!.toTypedArray(), contentService, this)

@@ -40,6 +40,7 @@ object themer
     {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
+        @Suppress("UNUSED_VARIABLE")
         val bitmap = BitmapFactory.decodeByteArray(arr,0,arr.size,options)
         return options.outWidth != -1 && options.outHeight != -1
     }

@@ -307,6 +307,7 @@ object GitHub_remote_service
         {
             val json_issue = response_array.getJSONObject(i)
             var title:String?
+            @Suppress("NAME_SHADOWING")
             var url:String?
             try
             {
