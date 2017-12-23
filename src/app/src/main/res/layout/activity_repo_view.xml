@@ -37,18 +37,26 @@
                 android:text="@string/repo_data" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/issues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repo_view_issues" />
+
+            <android.support.design.widget.TabItem
                 android:id="@+id/repo_files"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/repo_files" />
 
-            <!--
+
+
+
             <android.support.design.widget.TabItem
                 android:id="@+id/repo_wiki"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/repo_wiki" />
-                -->
+
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

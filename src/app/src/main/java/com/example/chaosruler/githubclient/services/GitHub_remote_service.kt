@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.dataclasses.gist
 import com.example.chaosruler.githubclient.dataclasses.gist_file
+import com.example.chaosruler.githubclient.dataclasses.issue
 import com.example.chaosruler.githubclient.dataclasses.repo
 import com.github.kittinunf.fuel.httpGet
 import org.eclipse.egit.github.core.RepositoryContents
@@ -18,7 +19,7 @@ import java.io.IOException
 import java.util.*
 
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_VARIABLE")
 object GitHub_remote_service
 {
     private var client:GitHubClient = GitHubClient()
@@ -129,7 +130,7 @@ object GitHub_remote_service
         return repoid
     }
 
-    fun get_content(repo_name: String,user_name: String, path:String = "/"): MutableList<RepositoryContents>? = ContentsService().getContents(get_repository_ID(repo_name,user_name),path)
+    fun get_content(repo_name: String,user_name: String, path:String = "/"): MutableList<RepositoryContents>? = ContentsService(client).getContents(get_repository_ID(repo_name,user_name),path)
 
     fun get_repo_url(repo_name: String,user_name: String): String? {
         val server_data = repo_service.getRepository(user_name,repo_name)
@@ -264,6 +265,8 @@ object GitHub_remote_service
 
     fun get_login():String = client.user?:""
 
+
+
     fun search_for_repos(search_arguements:String,page_number: Int,context: Context):Vector<repo>
     {
         val vector:Vector<repo> = Vector()
@@ -290,6 +293,33 @@ object GitHub_remote_service
             vector.addAll(search_for_repos(search_arguements, page_number + 1,context))
             vector
         }
+    }
+
+    fun get_issues(reponame:String,user_name: String,context: Context): Vector<issue> {
+        val vector:Vector<issue> = Vector()
+        val url = context.getString(R.string.download_url)+context.getString(R.string.issues_url).replace("OWNER",user_name).replace("REPO",reponame)+context.getString(R.string.AuthToken)
+        val (request, response, result) = url.httpGet().responseString() // result is Result<String, FuelError>
+        if(response.statusCode!=200)
+            return vector
+        val response_text = String(response.data)
+        val response_array = JSONArray(response_text)
+        for(i in 0 until response_array.length())
+        {
+            val json_issue = response_array.getJSONObject(i)
+            var title:String?
+            var url:String?
+            try
+            {
+                title = json_issue.getString(context.getString(R.string.issue_title))
+                url = json_issue.getString(context.getString(R.string.issue_html_url))
+            }
+            catch (e:Exception)
+            {
+                continue
+            }
+            vector.addElement(issue(title?:"",url?:""))
+        }
+        return vector
     }
 
 }

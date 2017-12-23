@@ -28,10 +28,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
-    // https://mvnrepository.com/artifact/org.eclipse.mylyn.github/org.eclipse.egit.github.core
     compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '2.1.5'
     compile 'com.github.kittinunf.fuel:fuel-android:1.12.0'
+    compile 'com.commit451:PhotoView:1.2.4'
 }
 
 apply plugin: 'kotlin-android'

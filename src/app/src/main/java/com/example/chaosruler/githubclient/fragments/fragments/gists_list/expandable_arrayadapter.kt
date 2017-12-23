@@ -45,7 +45,7 @@ class expandable_arrayadapter(private val _context: Context, private val _listDa
 
         goto.setOnClickListener {
             val new_intent = Intent(_context, display_file_activity::class.java)
-            new_intent.putExtra(_context.getString(R.string.file_key),item.data)
+            new_intent.putExtra(_context.getString(R.string.file_key),item.data.toByteArray())
             _context.startActivity(new_intent)
         }
 

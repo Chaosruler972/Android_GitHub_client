@@ -59,10 +59,18 @@ class repo_files_fragment : Fragment() {
             val contentService = GitHub_remote_service.get_ContentService(repo_name,user_name)
             Log.d("Files_fragment","CS is " + contentService.toString())
             val contents = GitHub_remote_service.get_content(repo_name,user_name)
-            RepoView_Activity.act!!.runOnUiThread { repo_files_list.adapter = repo_files_arrayadapter(context,contents!!.toTypedArray(),contentService,this)
-                /*
-                    disable up button
-                 */
+            RepoView_Activity.act!!.runOnUiThread {
+                try {
+                    repo_files_list.adapter = repo_files_arrayadapter(context, contents!!.toTypedArray(), contentService, this)
+                }
+                catch (e:Exception)
+                {
+                    Log.d("Repo files","Weird kotlin error")
+                }
+                    /*
+                    }
+                        disable up button
+                     */
                 repo_files_up.isEnabled = false
                 /*
                     up button replaces this adapter with stacks adapter, eventually moving "up" in memory, if there is nothing pushed we are at root directory

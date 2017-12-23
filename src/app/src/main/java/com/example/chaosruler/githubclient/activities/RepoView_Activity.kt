@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
 import com.example.chaosruler.githubclient.R
+import com.example.chaosruler.githubclient.fragments.fragments.Issues.Issues_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.Wiki_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.repo_files.repo_files_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.user_fragment.user_fragment
@@ -77,27 +78,8 @@ class RepoView_Activity : AppCompatActivity() {
         /*
             amount of fragments before knowing for sure there's a wiki page is 2, third fragment is wiki display
          */
-        var amount = 2
+        var amount = 4
         Thread{
-            /*
-                if repo got wiki
-             */
-            /*
-                there is a bug with wiki query, therefore I implented a simple HTTP request
-                if it returns 200, there is a wiki page, else its a redict therefore no wiki page
-             */
-            val url = baseContext.getString(R.string.wiki_url).replace("OWNER",user_name).replace("REPO",repo_name)
-            val (request, response, result) = url.httpGet().responseString() // result is Result<String, FuelError>
-            if(response.statusCode == 200)
-                amount++
-
-            /*
-    if ()
-    {
-        Log.d("Report","has Wiki")
-        amount++ // increase amount of fragments to open to 3
-    }
-    */
 
             /*
                    connects tableview to sectinPagerAdapter, with a custom one we made to handle fragments
@@ -106,11 +88,6 @@ class RepoView_Activity : AppCompatActivity() {
                   case we don't have a wiki, therefore only 2 fragments
                   we remove the last tab, since we won't be using it - there's no fragment to show there if there isn't a wiki
                */
-                if(amount!=2) {
-                    val wiki_tab = repo_finder_table.newTab()
-                    wiki_tab.text = baseContext.getString(R.string.repo_wiki)
-                    repo_finder_table.addTab(wiki_tab)
-                }
                 mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, amount)
                 /*
                     sets activity "container" to get data from sectionPagerAdapter (aka, inflate the fragment there)
@@ -146,8 +123,9 @@ class RepoView_Activity : AppCompatActivity() {
                 third fragment is a wiki fragment, opening a fragment with HTML view
              */
             0->com.example.chaosruler.githubclient.fragments.fragments.repo_data.newInstance(baseContext,user_name,repo_name)
-            1->repo_files_fragment.newInstance(baseContext,user_name,repo_name)
-            2->Wiki_fragment.newInstance(baseContext,user_name,repo_name)
+            1->Issues_fragment.newInstance(baseContext,user_name,repo_name)
+            2->repo_files_fragment.newInstance(baseContext,user_name,repo_name)
+            3->Wiki_fragment.newInstance(baseContext,user_name,repo_name)
             else-> user_fragment.newInstance()
         }
 

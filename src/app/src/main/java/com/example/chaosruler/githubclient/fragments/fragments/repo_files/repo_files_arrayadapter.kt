@@ -12,6 +12,7 @@ import android.widget.*
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.activities.RepoView_Activity
 import com.example.chaosruler.githubclient.activities.display_file_activity
+import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import com.example.chaosruler.githubclient.services.themer
 import org.eclipse.egit.github.core.RepositoryContents
 import org.eclipse.egit.github.core.service.ContentsService
@@ -108,11 +109,15 @@ class repo_files_arrayadapter(context: Context, arr:Array<RepositoryContents>, p
                                 we will get that data
                              */
                             val data = Base64.decode(obj.getString(context.getString(R.string.git_json_content)),Base64.DEFAULT)
+
+                            Log.d("Repo Files","Got data")
                             /*
                             decode it and send it to the data display intent
                              */
                             val new_intent = Intent(context,display_file_activity::class.java)
-                            new_intent.putExtra(context.getString(R.string.file_key),String(data))
+
+                            new_intent.putExtra(context.getString(R.string.file_key), data)
+
                             context.startActivity(new_intent)
                         }
                     }
@@ -121,7 +126,10 @@ class repo_files_arrayadapter(context: Context, arr:Array<RepositoryContents>, p
                         /*
                             case anything went wrong, display error message
                          */
-                        RepoView_Activity.act!!.runOnUiThread{ Toast.makeText(RepoView_Activity.act!!,context.getString(R.string.cant_display_data),Toast.LENGTH_SHORT).show() }
+                        RepoView_Activity.act!!.runOnUiThread{
+                            Toast.makeText(RepoView_Activity.act!!,context.getString(R.string.cant_display_data),Toast.LENGTH_SHORT).show()
+                            repo_view_progressbar.visibility = ProgressBar.INVISIBLE
+                        }
                         return@Thread
                     }
                 }.start()

@@ -26,7 +26,7 @@
 
     <!-- Activity repo finder strings -->
     <string name="repo_data">Data</string>
-    <string name="repo_wiki">Wiki</string>
+    <string name="repo_wiki">Project page</string>
     <string name="repo_files">Files</string>
 
     <!-- Activity display data -->
@@ -46,5 +46,8 @@
     <string name="entry2">Automatic entry</string>
     <string name="manage_users_db">Manage User database</string>
     <string name="settings_str">Settings</string>
+
+
+
 
 </resources>

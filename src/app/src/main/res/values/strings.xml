@@ -9,6 +9,7 @@
     <string name="download_url">https://api.github.com</string>
     <string name="content_url">/repos/OWNER/REPO/contents/PATH</string>
     <string name="gists_url">/users/OWNER/gists</string>
+    <string name="issues_url">/repos/OWNER/REPO/issues</string>
 
     <string name="AuthToken">\?client_id=a761695080ce97ff9395&amp;client_secret=93a3c7fb9bcd951f6e2f8409083301d43ae31a30</string>
 
@@ -32,10 +33,14 @@
 
     <!-- web limit strings -->
     <integer name="limit_amount_of_pages_on_search_repo">5</integer>
-    <string name="title_activity_settings">Settings</string>
 
 
-
+    <!-- Issue generator -->
+    <string name="issue_title">title</string>
+    <string name="issue_html_url">html_url</string>
+    <string name="issue_go">go to issue on page</string>
+    <string name="repo_view_issues">Issues</string>
+    <string name="display_is_picture">is_picture</string>
 
 
 </resources>

@@ -4,6 +4,11 @@ import android.content.Context
 import android.preference.PreferenceManager
 import android.view.View
 import com.example.chaosruler.githubclient.R
+import android.R.attr.path
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+
+
 
 
 object themer
@@ -30,4 +35,12 @@ object themer
 
     fun get_view_by_id(convertView: View, id: Int): View = convertView.findViewById(id) // grabs the correpsonding view by id from layout
 
+
+    fun is_image(arr:ByteArray):Boolean
+    {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        val bitmap = BitmapFactory.decodeByteArray(arr,0,arr.size,options)
+        return options.outWidth != -1 && options.outHeight != -1
+    }
 }
