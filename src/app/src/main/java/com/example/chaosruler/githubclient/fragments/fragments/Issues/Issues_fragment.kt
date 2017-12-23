@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,13 @@ class Issues_fragment : Fragment()
             val vector = GitHub_remote_service.get_issues(repo_name,user_name,context)
             RepoView_Activity.act!!.runOnUiThread {
                 repo_view_progressbar.visibility = ProgressBar.INVISIBLE
-                issues_listview.adapter = array_adapter(context,vector)
+                try {
+                    issues_listview.adapter = array_adapter(context, vector)
+                }
+                catch (e:Exception)
+                {
+                    Log.d("Issues fragment","More weird issues from kotlin")
+                }
             }
         }.start()
         repo_view_progressbar.visibility = ProgressBar.INVISIBLE

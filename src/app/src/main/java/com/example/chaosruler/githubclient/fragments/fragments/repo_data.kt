@@ -13,6 +13,7 @@ import android.widget.ProgressBar
 
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.activities.RepoView_Activity
+import com.example.chaosruler.githubclient.dataclasses.repo
 import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import kotlinx.android.synthetic.main.fragment_repo_data.*
 
@@ -34,7 +35,16 @@ class repo_data : Fragment() {
             /*
             gets a repo representation
              */
-            val repo = GitHub_remote_service.get_repo_by_id_and_name(repo_name,user_name)
+            val repo:repo?
+            try {
+                repo=GitHub_remote_service.get_repo_by_id_and_name(repo_name,user_name)
+            }
+            catch (e:Exception)
+            {
+                RepoView_Activity.act!!.runOnUiThread { repo_view_progressbar.visibility = ProgressBar.INVISIBLE
+                }
+                return@Thread
+            }
 
             RepoView_Activity.act!!.runOnUiThread {
                 try

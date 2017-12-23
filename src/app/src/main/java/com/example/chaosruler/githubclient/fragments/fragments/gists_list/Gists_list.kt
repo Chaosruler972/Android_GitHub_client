@@ -5,10 +5,12 @@ package com.example.chaosruler.githubclient.fragments.fragments.gists_list
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.chaosruler.githubclient.R
+import com.example.chaosruler.githubclient.activities.MainActivity
 import com.example.chaosruler.githubclient.dataclasses.gist
 import com.example.chaosruler.githubclient.dataclasses.gist_file
 import com.example.chaosruler.githubclient.services.GitHub_remote_service
@@ -25,45 +27,44 @@ class Gists_list : Fragment() {
 
 
     private lateinit var username:String
-    override fun onActivityCreated(savedInstanceState: Bundle?)
-    {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        try
-        {
+        try {
             username = arguments.getString(getString(R.string.user_name_key))
-        }
-        catch (e:Exception)
-        {
+        } catch (e: Exception) {
             /*
             case we failed to load arguements
              */
-            activity.finish()
+            MainActivity.act.finish()
         }
-        Thread{
+        Thread {
             /*
                 get all gists
              */
-            val vector:Vector<gist> =  GitHub_remote_service.get_gists(username,context,1)
+            val vector: Vector<gist> = GitHub_remote_service.get_gists(username, context, 1)
             /*
                 divide into headers and data for expandable listview
              */
-            val headers:Vector<String> = Vector()
-            val map:HashMap<String,List<gist_file>> = HashMap()
+            val headers: Vector<String> = Vector()
+            val map: HashMap<String, List<gist_file>> = HashMap()
             vector.forEach {
                 /*
                     input data per header to a vector into a hashtable
                  */
                 headers.addElement(it.desc)
-                map.put(it.desc,it.vector.toList())
+                map.put(it.desc, it.vector.toList())
             }
             /*
                 update expandable listview
              */
-            activity.runOnUiThread {gists_listview.setAdapter(expandable_arrayadapter(context,headers.toList(),map)) }
-
-
+            MainActivity.act.runOnUiThread {
+                try {
+                    gists_listview.setAdapter(expandable_arrayadapter(context, headers.toList(), map))
+                } catch (e: Exception) {
+                    Log.d("Gists", "This is getting tiring..")
+                }
+            }
         }.start()
-
     }
 
     companion object

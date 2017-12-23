@@ -4,6 +4,7 @@ package com.example.chaosruler.githubclient.fragments.fragments.search_for_repo
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,13 @@ class search_for_repo : Fragment() {
                 val repos = GitHub_remote_service.search_for_repos(search_repo_text.text.toString(),1,context)
                 MainActivity.act.runOnUiThread {
                     main_progressbar.visibility = ProgressBar.INVISIBLE
-                    search_repos_listview.adapter = array_adapter(context, repos)
+                    try {
+                        search_repos_listview.adapter = array_adapter(context, repos)
+                    }
+                    catch (e:Exception)
+                    {
+                        Log.d("Search Repos","Oi! Kotlin!")
+                    }
                     search_repo_btn.isEnabled = true
                 }
 
