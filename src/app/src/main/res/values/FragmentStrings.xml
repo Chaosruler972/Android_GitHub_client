@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- User Fragment -->
+    <string name="hello_name_familyname">Hello name !</string>
+    <string name="avatar">Avatar</string>
+    <string name="user_repo_is_private">Is private</string>
+    <string name="user_repo_is_public">Is public</string>
+    <string name="repo_name">Name</string>
+    <string name="repo_create_date">Create Date</string>
+    <string name="repo_language">Language</string>
+    <string name="repo_is_private">Is Private</string>
+    <string name="user_email">Email: email</string>
+    <string name="amount_of_repositries_repos_disk_usage_disk">Amount of Repositries: repos \nDisk Usage: disk MB</string>
+    <string name="user_location">Location: location</string>
+    <string name="go_to_project_data">Go to project data</string>
+
+    <!-- Repo data fragment -->
+    <string name="repo_data_license">License: license</string>
+    <string name="repo_data_issues">Open Issues: issues</string>
+    <string name="repo_data_forks">Forks: forks</string>
+    <string name="repo_data_contrib">Contributors: contributors</string>
+    <string name="repo_data_watches">Watches: watches</string>
+    <string name="repo_data_stars">Stars: stars</string>
+    <string name="repo_data_releases">Releases: releases</string>
+    <string name="repo_data_last_update">Last Update: update</string>
+    <string name="repo_data_name">Name: name</string>
+    <string name="repo_data_isforked">Repo is NOT forked</string>
+    <string name="repo_data_created_at">Created at: date</string>
+    <string name="repo_data_language">Language: language</string>
+    <string name="repo_data_desc">Description: desc</string>
+    <string name="repo_data_owner">Owner: owner</string>
+    <string name="go_up_one_level">Go up one level</string>
+    <string name="enter_file">Enter file</string>
+
+
+    <!-- Search repo fragment data -->
+    <string name="search_that_repo">Search that repo</string>
+    <string name="enter_you_search_criteria">Enter you search criteria</string>
+    <string name="empty_string_criteria">Empty string criteria! please enter something</string>
+
+</resources>

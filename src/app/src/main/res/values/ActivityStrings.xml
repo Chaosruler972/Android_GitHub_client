@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to login -->
+    <string name="prompt_email">GitHub ID/Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Strings related to Main Activity -->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_text_1">User Repository</string>
+    <string name="tab_text_2">Gists</string>
+    <string name="tab_text_3">Search for a Repository</string>
+
+
+    <!--  moving to repo finder keys -->
+    <string name="repo_name_key">reponame</string>
+    <string name="user_name_key">username</string>
+
+    <!-- Activity repo finder strings -->
+    <string name="repo_data">Data</string>
+    <string name="repo_wiki">Wiki</string>
+    <string name="repo_files">Files</string>
+
+    <!-- Activity display data -->
+    <string name="file_key">filekey</string>
+    <string name="cant_display_data">Unable to display file!</string>
+
+    <!-- user control activity -->
+    <string name="delete_send_changes" >send new password</string>
+    <string name="activity_user_shane_sisma">change password</string>
+    <string name="activity_users_mehak">delete</string>
+    <string name="delete_verify">password (verify)</string>
+    <string name="delete_confirmed">Password changed confirmed..</string>
+    <string name="delete_mismatch">ERROR : Passwords mismatch</string>
+
+    <!-- menu items -->
+    <string name="entry1">Manual Entry</string>
+    <string name="entry2">Automatic entry</string>
+    <string name="manage_users_db">Manage User database</string>
+    <string name="settings_str">Settings</string>
+
+</resources>

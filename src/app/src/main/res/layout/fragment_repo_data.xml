@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.chaosruler.githubclient.fragments.fragments.repo_data"
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    >
+
+
+    <TextView
+        android:id="@+id/repo_data_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_name"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_desc"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_language"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_language"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_issues"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_issues"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_isforked"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_isforked"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_forks"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_forks"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_create"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_created_at"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_last_update"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_last_update"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/repo_data_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/repo_data_owner"
+        android:textAlignment="center" />
+
+
+
+</LinearLayout>

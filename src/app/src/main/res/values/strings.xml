@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">GitHub Client</string>
+    <string name="title_activity_login">GitHub client</string>
+
+    <string name="date_format">dd/MM/yyyy hh:mm:ss</string>
+    <string name="title_activity_repo_view_">RepoView_Activity</string>
+
+
+    <string name="download_url">https://api.github.com</string>
+    <string name="content_url">/repos/OWNER/REPO/contents/PATH</string>
+    <string name="gists_url">/users/OWNER/gists</string>
+
+    <string name="AuthToken">\?client_id=a761695080ce97ff9395&amp;client_secret=93a3c7fb9bcd951f6e2f8409083301d43ae31a30</string>
+
+
+    <string name="wiki_url">https://github.com/OWNER/REPO/wiki</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="git_json_encoding">encoding</string>
+    <string name="git_json_base64">base64</string>
+    <string name="git_json_content">content</string>
+
+    <!-- DB strings -->
+    <string name="USER_database_filename">users.db</string>
+    <string name="USER_COL_ID">_id</string>
+    <string name="USER_COL_PASSWORD">password</string>
+    <string name="USER_TABLE_NAME">users</string>
+    <string name="delete_empty_pw">Empty password panel</string>
+    <string name="login_logo_icon">Logo icon</string>
+
+
+    <!-- web limit strings -->
+    <integer name="limit_amount_of_pages_on_search_repo">5</integer>
+    <string name="title_activity_settings">Settings</string>
+
+
+
+
+
+</resources>

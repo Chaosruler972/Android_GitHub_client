@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="style">style</string>
+    <string name="pref_style_txt">Application Style</string>
+    <string name="pref_style_summary">Changing the style now will resartthe app</string>
+    <string name="warning_need_restart">Settings will be applied after app restart</string>
+    <string-array name="style_entries">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>CodeFreak</item>
+    </string-array>
+
+    <string-array name="style_values">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>CodeFreak</item>
+    </string-array>
+
+    <string name="pref_header_general">General</string>
+</resources>
