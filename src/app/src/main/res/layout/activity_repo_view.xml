@@ -43,6 +43,12 @@
                 android:text="@string/repo_view_issues" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/repo_commits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/commits" />
+
+            <android.support.design.widget.TabItem
                 android:id="@+id/repo_files"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

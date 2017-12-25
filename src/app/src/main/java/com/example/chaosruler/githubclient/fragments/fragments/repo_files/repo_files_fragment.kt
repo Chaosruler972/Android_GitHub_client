@@ -81,19 +81,26 @@ class repo_files_fragment : Fragment() {
                     }
                         disable up button
                      */
-                repo_files_up.isEnabled = false
-                /*
+                try {
+                    repo_files_up.isEnabled = false
+                    /*
                     up button replaces this adapter with stacks adapter, eventually moving "up" in memory, if there is nothing pushed we are at root directory
                  */
-                repo_files_up.setOnClickListener{if(stack.empty())
-                    return@setOnClickListener
-                    else
-                    repo_files_list.adapter = stack.pop()
-                    /*
+                    repo_files_up.setOnClickListener {
+                        if (stack.empty())
+                            return@setOnClickListener
+                        else
+                            repo_files_list.adapter = stack.pop()
+                        /*
                         if after poping we emptied the stack, we should disable the button
                      */
-                    if(stack.isEmpty())
-                        repo_files_up.isEnabled = false
+                        if (stack.isEmpty())
+                            repo_files_up.isEnabled = false
+                    }
+                }
+                catch (e:Exception)
+                {
+                    Log.d("Kotlin","Repo button was null")
                 }
 
                 repo_view_progressbar.visibility = ProgressBar.INVISIBLE

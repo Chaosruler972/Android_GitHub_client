@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.fragments.fragments.gists_list.Gists_list
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity()
             kotlin limitation yet
          */
         act = this
+        
         /*
             gets support action bar to show tabs
          */

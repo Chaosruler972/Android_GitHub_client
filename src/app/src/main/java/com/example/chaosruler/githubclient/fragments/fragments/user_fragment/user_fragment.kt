@@ -1,25 +1,20 @@
 package com.example.chaosruler.githubclient.fragments.fragments.user_fragment
 
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
+
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+
 import android.widget.ProgressBar
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.activities.MainActivity
 import com.example.chaosruler.githubclient.services.GitHub_remote_service
+import com.example.chaosruler.githubclient.services.load_Image_from_URL
 import kotlinx.android.synthetic.main.fragment_user.*
-import java.io.InputStream
-import java.net.MalformedURLException
-import java.net.URL
 
 
 class user_fragment : Fragment()
@@ -143,66 +138,5 @@ class user_fragment : Fragment()
     }
 
 
-    /*
-        class responsible for downloading image and setting avy as that image
-     */
-    @SuppressLint("StaticFieldLeak")
-    inner class load_Image_from_URL(private val url:String, private var imageView: ImageView): AsyncTask<String, Void, Bitmap?>()
-    {
 
-        override fun doInBackground(vararg params: String?): Bitmap?
-        {
-            try
-            {
-                /*
-                    builds a URL
-                 */
-                val avatar_URL = URL(url)
-                /*
-                     opens a connection
-                 */
-                val connection_to_download_avy = avatar_URL.openConnection()
-                connection_to_download_avy.doInput = true
-                connection_to_download_avy.connect()
-                /*
-                    get input stream from data
-                 */
-                val input_stream: InputStream = connection_to_download_avy.getInputStream()
-                /*
-                    decode input stream into a image
-                 */
-                return BitmapFactory.decodeStream(input_stream)
-            }
-            catch (e:MalformedURLException)
-            {
-                /*
-                    url is incorrect
-                 */
-                Log.d("User Fragment","malformed URL")
-            }
-            catch (e:Exception)
-            {
-                /*
-                anything wrong happened
-                 */
-                Log.d("User Fragment","Something went wrong")
-            }
-            return null
-        }
-
-        override fun onPostExecute(result: Bitmap?) {
-            super.onPostExecute(result)
-            /*
-                upon success
-             */
-            if(result!=null)
-            {
-                /*
-                update image on UI if download was successfull and decode was sucessfull
-                 */
-                MainActivity.act.runOnUiThread { imageView.setImageBitmap(result) }
-            }
-        }
-
-    }
 }

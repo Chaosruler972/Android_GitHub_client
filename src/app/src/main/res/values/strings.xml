@@ -10,9 +10,10 @@
     <string name="content_url">/repos/OWNER/REPO/contents/PATH</string>
     <string name="gists_url">/users/OWNER/gists</string>
     <string name="issues_url">/repos/OWNER/REPO/issues</string>
+    <string name="location_URL">/search/users?q=location:LOCATION</string>
 
     <string name="AuthToken">\?client_id=a761695080ce97ff9395&amp;client_secret=93a3c7fb9bcd951f6e2f8409083301d43ae31a30</string>
-
+    <string name="AuthToken_addon">&amp;client_id=a761695080ce97ff9395&amp;client_secret=93a3c7fb9bcd951f6e2f8409083301d43ae31a30</string>
 
     <string name="wiki_url">https://github.com/OWNER/REPO/wiki</string>
 
@@ -41,6 +42,18 @@
     <string name="issue_go">go to issue on page</string>
     <string name="repo_view_issues">Issues</string>
     <string name="display_is_picture">is_picture</string>
+    <string name="comment_user">user</string>
+    <string name="comment_login">login</string>
+    <string name="comment_url">comments_url</string>
+    <string name="comment_body">body</string>
+    <string name="comment_created_at">created_at</string>
+    <string name="play_commit">play commit</string>
+    <string name="commits">Commits</string>
+    <string name="search_user_login">login</string>
+    <string name="search_user_avatar">avatar_url</string>
+    <string name="search_user_url">html_url</string>
+    <string name="search_items">items</string>
+    <string name="grabbing_location">Grabbing location</string>
 
 
 </resources>

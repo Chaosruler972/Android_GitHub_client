@@ -1,17 +1,21 @@
 package com.example.chaosruler.githubclient.SQLite
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.dataclasses.User
 import java.util.*
 import kotlin.collections.HashMap
+import android.net.wifi.WifiManager
+import com.example.chaosruler.githubclient.services.themer
 
 
 @Suppress("unused", "MemberVisibilityCanPrivate")
-class user_database_helper(con: Context) : local_SQL_Helper(con, con.getString(R.string.USER_database_filename), null, con.resources.getInteger(R.integer.USER_DB_VERSION), con.getString(R.string.USER_TABLE_NAME)) {
+class user_database_helper(private val con: Context) : local_SQL_Helper(con, con.getString(R.string.USER_database_filename), null, con.resources.getInteger(R.integer.USER_DB_VERSION), con.getString(R.string.USER_TABLE_NAME)) {
     private val USERS_ID: String = con.getString(R.string.USER_COL_ID)
     private val PASSWORD: String = con.getString(R.string.USER_COL_PASSWORD)
+
 
     /*
         MUST BE CALLED, it reports to the database about the table schema, is used by the abstracted
@@ -90,7 +94,7 @@ class user_database_helper(con: Context) : local_SQL_Helper(con, con.getString(R
 
         val data: HashMap<String, String> = HashMap()
         data[USERS_ID] = username
-        data[PASSWORD] = password
+        data[PASSWORD] = String(themer.xorWithKey(password.toByteArray(),get_device_id().toByteArray()))
         everything_to_add.addElement(data)
         add_data(everything_to_add)
     }
@@ -104,7 +108,7 @@ class user_database_helper(con: Context) : local_SQL_Helper(con, con.getString(R
             return false
 
         val change_to: HashMap<String, String> = HashMap()
-        change_to[PASSWORD] = password
+        change_to[PASSWORD] = String(themer.xorWithKey(password.toByteArray(),get_device_id().toByteArray()))
         return update_data(USERS_ID, arrayOf(username),change_to)
     }
 
@@ -130,7 +134,7 @@ class user_database_helper(con: Context) : local_SQL_Helper(con, con.getString(R
         val users: Vector<User> = Vector()
         val vector: Vector<HashMap<String, String>> = get_db()
         vector
-                .map { User(it[USERS_ID].toString(), it[PASSWORD].toString()) }
+                .map { User(it[USERS_ID].toString(), String(themer.xorWithKey(it[PASSWORD].toString().toByteArray(),get_device_id().toByteArray()))) }
                 .forEach { users.addElement(it) }
         return users
     }
@@ -147,9 +151,10 @@ class user_database_helper(con: Context) : local_SQL_Helper(con, con.getString(R
         val input_map = HashMap<String, String>()
         input_map[USERS_ID] = "'$username'"
         val vector = get_rows(input_map)
+
         if(vector.size > 0)
         {
-            return User((vector.firstElement()[USERS_ID]?:"").trim(), (vector.firstElement()[PASSWORD]?:"").trim())
+            return User((vector.firstElement()[USERS_ID]?:"").trim(),String(themer.xorWithKey((vector.firstElement()[PASSWORD]?:"").trim().toByteArray(),get_device_id().toByteArray())) )
         }
 
 
@@ -164,5 +169,12 @@ class user_database_helper(con: Context) : local_SQL_Helper(con, con.getString(R
     }
 
 
+    @SuppressLint("WifiManagerPotentialLeak", "HardwareIds")
+    private fun get_device_id():String
+    {
+        val wifiManager = con.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wInfo = wifiManager.connectionInfo
+        return wInfo.macAddress
+    }
 
 }

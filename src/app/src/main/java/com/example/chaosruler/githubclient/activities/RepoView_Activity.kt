@@ -7,15 +7,20 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import com.example.chaosruler.githubclient.R
+import com.example.chaosruler.githubclient.dataclasses.repo
 import com.example.chaosruler.githubclient.fragments.fragments.Issues.Issues_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.Wiki_fragment
+import com.example.chaosruler.githubclient.fragments.fragments.commits.commit_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.repo_files.repo_files_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.user_fragment.user_fragment
+import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import com.example.chaosruler.githubclient.services.themer
-import com.github.kittinunf.fuel.httpGet
 
 import kotlinx.android.synthetic.main.activity_repo_view.*
+import java.util.*
 
 
 class RepoView_Activity : AppCompatActivity() {
@@ -23,6 +28,12 @@ class RepoView_Activity : AppCompatActivity() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         var act: AppCompatActivity? = null
+        var tts:TextToSpeech? = null
+        @Suppress("unused")
+        fun speakOut(string:String)
+        {
+            tts!!.speak(string, TextToSpeech.QUEUE_FLUSH, null,"")
+        }
     }
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -35,11 +46,29 @@ class RepoView_Activity : AppCompatActivity() {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var repo_name:String
     private lateinit var user_name:String
+
     @Suppress("UNUSED_VARIABLE")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this, object :TextToSpeech.OnInitListener
+        {
+            override fun onInit(status: Int)
+            {
+                if (status == TextToSpeech.SUCCESS)
+                {
+                    // set US English as language for tts
+                    val result = tts!!.setLanguage(Locale.US)
+
+                }
+                else
+                {
+                    Log.e("TTS", "Initilization Failed!")
+                }
+            }
+
+        })
         setContentView(R.layout.activity_repo_view)
         /*
             save this activiy as a variable, kotlin cut the activity access
@@ -61,6 +90,7 @@ class RepoView_Activity : AppCompatActivity() {
              */
             finish()
         }
+
         /*
             set action bar, used for tableview
          */
@@ -78,7 +108,7 @@ class RepoView_Activity : AppCompatActivity() {
         /*
             amount of fragments before knowing for sure there's a wiki page is 2, third fragment is wiki display
          */
-        var amount = 4
+        val amount = 5
         Thread{
 
             /*
@@ -124,8 +154,9 @@ class RepoView_Activity : AppCompatActivity() {
              */
             0->com.example.chaosruler.githubclient.fragments.fragments.repo_data.newInstance(baseContext,user_name,repo_name)
             1->Issues_fragment.newInstance(baseContext,user_name,repo_name)
-            2->repo_files_fragment.newInstance(baseContext,user_name,repo_name)
-            3->Wiki_fragment.newInstance(baseContext,user_name,repo_name)
+            2-> commit_fragment.newInstance(baseContext,user_name,repo_name)
+            3->repo_files_fragment.newInstance(baseContext,user_name,repo_name)
+            4->Wiki_fragment.newInstance(baseContext,user_name,repo_name)
             else-> user_fragment.newInstance()
         }
 
@@ -135,5 +166,15 @@ class RepoView_Activity : AppCompatActivity() {
         }
     }
 
+    public override fun onDestroy()
+    {
+        // Shutdown TTS
+        if (tts != null)
+        {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+        super.onDestroy()
+    }
 
 }
