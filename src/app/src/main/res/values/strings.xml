@@ -54,6 +54,16 @@
     <string name="search_user_url">html_url</string>
     <string name="search_items">items</string>
     <string name="grabbing_location">Grabbing location</string>
+    <string name="location_not_granted">No location permission granted!</string>
+    <string name="couldnt_get_country">Couldn\'t get country</string>
+    <string name="user_avatar">User avatar</string>
+    <string name="goto_user_page">Goto user page</string>
+    <string name="find_local_users">Find local users</string>
+    <string name="no_phone_number">No email address</string>
+    <string name="user_id">id</string>
+    <string name="no_location">Couldn\'t get location!</string>
+    <string name="play_tts_on_code">Play TTS on code</string>
+    <string name="play_file_content">Play File content</string>
 
 
 </resources>

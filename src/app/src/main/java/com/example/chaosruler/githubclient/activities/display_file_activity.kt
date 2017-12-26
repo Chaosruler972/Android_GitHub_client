@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import com.example.chaosruler.githubclient.R
@@ -29,7 +30,7 @@ class display_file_activity : Activity() {
 
         try
         {
-                data = intent.getByteArrayExtra(getString(R.string.file_key))
+            data = intent.getByteArrayExtra(getString(R.string.file_key))
         }
         catch (e:Exception)
         {
@@ -46,6 +47,7 @@ class display_file_activity : Activity() {
          */
         if(is_picture)
         {
+            display_file_play.visibility = ImageButton.INVISIBLE
             display_file_parent.removeView(display_file_data)
             val imageview = ImageView(baseContext)
             imageview.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
@@ -56,6 +58,12 @@ class display_file_activity : Activity() {
 
         }
         else
+        {
             display_file_data.text = String(data)
+            display_file_play.setOnClickListener {
+                MainActivity.speakOut(String(data))
+            }
+        }
+
     }
 }

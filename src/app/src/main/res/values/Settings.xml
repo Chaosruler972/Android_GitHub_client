@@ -20,4 +20,30 @@
     <string name="pref_header_general">General</string>
 
     <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_header_data_sync">Data Sync</string>
+
+
+    <string name="pref_title_sync_frequency">sync Amount</string>
+    <string name="pref_freq_summary">Objects to download</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+        <item>600</item>
+        <item>Infinity</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>0</item>
+    </string-array>
+
+    <string name="sync_frequency">sync_freq</string>
 </resources>

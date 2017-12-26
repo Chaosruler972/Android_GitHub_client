@@ -2,6 +2,7 @@ package com.example.chaosruler.githubclient.services
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.preference.PreferenceManager
 import android.util.Log
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.dataclasses.*
@@ -43,6 +44,7 @@ object GitHub_remote_service
         return try
         {
             val user = user_service.user
+
             Log.d("GitHub","User is $user")
             /*
                 case login succesfull, lets init all services
@@ -299,7 +301,9 @@ object GitHub_remote_service
                 it.owner?:"",
                 it.isHasWiki
         )) }
-        return if(vector.size == 0 || page_number == context.resources.getInteger(R.integer.limit_amount_of_pages_on_search_repo))
+        val amount = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.sync_frequency),"100").toInt()
+
+        return if(vector.size == 0 || page_number == amount && amount!=0)
             vector
         else
         {
@@ -537,12 +541,13 @@ object GitHub_remote_service
         }
         if(arr == null)
             return vector
-
+       // Log.d("Search Users",url)
         for(i in 0 until arr.length())
         {
             var username:String? = null
             var avatar_url:String? = null
             var http_url:String? = null
+            var id:String? = null
             try
             {
                 /*
@@ -552,6 +557,7 @@ object GitHub_remote_service
                 username = obj.getString(context.getString(R.string.search_user_login))
                 avatar_url = obj.getString(context.getString(R.string.search_user_avatar))
                 http_url = obj.getString(context.getString(R.string.search_user_url))
+                id = obj.getString(context.getString(R.string.user_id))
             }
             catch (e:Exception)
             {
@@ -564,10 +570,20 @@ object GitHub_remote_service
             /*
                 success - if everything is not null, enter data
              */
-            if(username!=null && avatar_url!=null && http_url!=null)
-                vector.addElement(search_user(username,avatar_url,http_url))
+            if(username!=null && avatar_url!=null && http_url!=null && id!=null)
+            {
+                /*
+                    get email and put instead of null
+                 */
+                var phone:String? = null
+                val userObj = UserService(client).getUser(username)
+                if(userObj!=null)
+                    phone=userObj.email
+                vector.addElement(search_user(username, phone, avatar_url, http_url, context))
+            }
         }
-        return if(page_number<=5)
+        val amount = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.sync_frequency),"100").toInt()
+        return if(page_number<=amount && amount!=0)
         {
             vector.addAll(search_user_by_location(location,context,page_number+1))
             vector

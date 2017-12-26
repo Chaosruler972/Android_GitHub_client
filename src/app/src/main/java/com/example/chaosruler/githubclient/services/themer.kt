@@ -6,8 +6,13 @@ import android.view.View
 import com.example.chaosruler.githubclient.R
 import android.graphics.BitmapFactory
 import kotlin.experimental.xor
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.widget.ImageView
+import java.io.ByteArrayOutputStream
 
 
+@Suppress("unused")
 object themer
 {
     /*
@@ -65,5 +70,22 @@ object themer
             out[i] = (a[i] xor key[i % key.size])
         }
         return out
+    }
+
+    fun getByteArrayFromImageView(imageView: ImageView): ByteArray
+    {
+        val bitmapDrawable = imageView.drawable as BitmapDrawable?
+        val bitmap: Bitmap
+        @Suppress("SENSELESS_COMPARISON")
+        if (bitmapDrawable == null) {
+            imageView.buildDrawingCache()
+            bitmap = imageView.drawingCache
+            imageView.buildDrawingCache(false)
+        } else {
+            bitmap = bitmapDrawable.bitmap
+        }
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        return stream.toByteArray()
     }
 }

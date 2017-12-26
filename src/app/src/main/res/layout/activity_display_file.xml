@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,21 +7,45 @@
     android:fillViewport="true"
     >
 
-    <HorizontalScrollView
-
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:id="@+id/display_file_parent"
-        tools:ignore="UselessLeaf">
+        android:orientation="vertical"
+        android:layoutDirection="rtl"
+        >
 
+        <ImageButton
+            android:id="@+id/display_file_play"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/play_file_content"
+            app:srcCompat="@android:drawable/ic_menu_info_details" />
 
-        <TextView
-            android:id="@+id/display_file_data"
+        <HorizontalScrollView
+
+            android:id="@+id/display_file_parent"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:layout_marginTop="60dp"
+            android:fillViewport="true"
+            android:layoutDirection="ltr"
+            tools:ignore="UselessLeaf">
 
-            />
-    </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/display_file_data"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                />
+
+
+        </HorizontalScrollView>
+
+
+    </LinearLayout>
+
 
 </ScrollView>

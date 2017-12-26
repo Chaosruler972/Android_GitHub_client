@@ -63,13 +63,16 @@ class load_Image_from_URL(private val url:String, private var imageView: ImageVi
         /*
             upon success
          */
+        Log.d("Image","There are results")
         if(result!=null)
         {
             /*
             update image on UI if download was successfull and decode was sucessfull
              */
+            Log.d("Image","Loaded Image")
             MainActivity.act.runOnUiThread { imageView.setImageBitmap(result) }
         }
+
     }
 
 }

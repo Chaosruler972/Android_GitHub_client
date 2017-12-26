@@ -2,6 +2,7 @@ package com.example.chaosruler.githubclient.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -12,10 +13,12 @@ import android.util.Log
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.fragments.fragments.gists_list.Gists_list
 import com.example.chaosruler.githubclient.fragments.fragments.search_for_repo.search_for_repo
+import com.example.chaosruler.githubclient.fragments.fragments.search_users_by_location.search_users_by_location
 import com.example.chaosruler.githubclient.fragments.fragments.user_fragment.user_fragment
 import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import com.example.chaosruler.githubclient.services.themer
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity()
@@ -24,12 +27,51 @@ class MainActivity : AppCompatActivity()
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var act:AppCompatActivity
+        var tts: TextToSpeech? = null
+        @Suppress("unused")
+        fun speakOut(string:String)
+        {
+            try
+            {
+                if (tts != null)
+                {
+                    if (tts!!.isSpeaking)
+                    {
+                        tts!!.stop()
+                    } else {
+                        tts!!.speak(string, TextToSpeech.QUEUE_FLUSH, null, "")
+                    }
+                }
+            }
+            catch (e:Exception)
+            {
+                Log.d("TTS","Something went wrong")
+            }
+        }
     }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        tts = TextToSpeech(this, object :TextToSpeech.OnInitListener
+        {
+            override fun onInit(status: Int)
+            {
+                if (status == TextToSpeech.SUCCESS)
+                {
+                    // set US English as language for tts
+                    val result = tts!!.setLanguage(Locale.US)
+
+                }
+                else
+                {
+                    Log.e("TTS", "Initilization Failed!")
+                }
+            }
+
+        })
         /*
             kotlin limitation yet
          */
@@ -46,7 +88,7 @@ class MainActivity : AppCompatActivity()
         /*
             tabs amount
          */
-        val amount_of_pages = 3
+        val amount_of_pages = 4
         /*
             inits table adapter for tabs
          */
@@ -91,11 +133,23 @@ class MainActivity : AppCompatActivity()
             0-> user_fragment.newInstance()
             1-> Gists_list.newInstance(GitHub_remote_service.get_login(),baseContext)
             2-> search_for_repo.newInstance()
+            3-> search_users_by_location.newInstance()
             else-> search_for_repo.newInstance()
         }
         /*
             have to implement this
          */
         override fun getCount(): Int = num_of_tabs
+    }
+
+    public override fun onDestroy()
+    {
+        // Shutdown TTS
+        if (tts != null)
+        {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+        super.onDestroy()
     }
 }

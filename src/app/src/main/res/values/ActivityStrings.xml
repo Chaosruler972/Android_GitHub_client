@@ -12,6 +12,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="permission_rationale2">"Location permissions are needed to nearby-users feature."
+    </string>
 
     <!-- Strings related to Main Activity -->
     <string name="title_activity_main">MainActivity</string>

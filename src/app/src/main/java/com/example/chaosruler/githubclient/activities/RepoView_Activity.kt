@@ -10,13 +10,11 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import com.example.chaosruler.githubclient.R
-import com.example.chaosruler.githubclient.dataclasses.repo
 import com.example.chaosruler.githubclient.fragments.fragments.Issues.Issues_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.Wiki_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.commits.commit_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.repo_files.repo_files_fragment
 import com.example.chaosruler.githubclient.fragments.fragments.user_fragment.user_fragment
-import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import com.example.chaosruler.githubclient.services.themer
 
 import kotlinx.android.synthetic.main.activity_repo_view.*
@@ -32,7 +30,20 @@ class RepoView_Activity : AppCompatActivity() {
         @Suppress("unused")
         fun speakOut(string:String)
         {
-            tts!!.speak(string, TextToSpeech.QUEUE_FLUSH, null,"")
+            try
+            {
+                if (tts != null) {
+                    if (tts!!.isSpeaking) {
+                        tts!!.stop()
+                    } else {
+                        tts!!.speak(string, TextToSpeech.QUEUE_FLUSH, null, "")
+                    }
+                }
+            }
+            catch (e:Exception)
+            {
+                Log.d("TTS","Something went wrong")
+            }
         }
     }
     /**

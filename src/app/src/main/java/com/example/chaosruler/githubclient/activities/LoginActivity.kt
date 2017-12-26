@@ -1,5 +1,6 @@
 package com.example.chaosruler.githubclient.activities
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
@@ -99,20 +100,26 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     }
 
     @SuppressLint("ObsoleteSdkInt")
-    private fun mayRequestContacts(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+    private fun mayRequestContacts(): Boolean
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        {
             return true
         }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED )
+        {
             return true
         }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+        when {
+            shouldShowRequestPermissionRationale(READ_CONTACTS) -> Snackbar.make(email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok,
-                            { requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS) })
-        } else {
-            requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS)
+                            { requestPermissions(arrayOf(READ_CONTACTS,ACCESS_FINE_LOCATION), REQUEST_READ_CONTACTS) })
+            shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> Snackbar.make(email, R.string.permission_rationale2, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok,
+                            { requestPermissions(arrayOf(READ_CONTACTS,ACCESS_FINE_LOCATION), REQUEST_READ_CONTACTS) })
+            else -> requestPermissions(arrayOf(READ_CONTACTS, ACCESS_FINE_LOCATION), REQUEST_READ_CONTACTS)
         }
+
         return false
     }
 
