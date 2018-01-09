@@ -41,11 +41,16 @@ class search_users_by_location : Fragment(), LocationListener
         val main_progressbar = MainActivity.act.findViewById(R.id.main_progressbar) as ProgressBar
         main_progressbar.visibility = ProgressBar.VISIBLE
         locationManager = context.getSystemService(LOCATION_SERVICE) as android.location.LocationManager
-        locationManager.requestSingleUpdate(best_location_provider(), this, null)
+        //locationManager.requestLocationUpdates(best_location_provider(),0.toLong(),0.toFloat(), this, null)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0.toLong(),0.toFloat(), this, null)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0.toLong(),0.toFloat(), this, null)
 
+        Log.d("Location","Request sent")
+       // onLocationChanged(locationManager.getLastKnownLocation(best_location_provider())) // just in case
     }
 
 
+    @Suppress("unused")
     private fun best_location_provider():String
     {
         val criteria = Criteria()
@@ -55,31 +60,36 @@ class search_users_by_location : Fragment(), LocationListener
         criteria.isCostAllowed = true
 
         return locationManager.getBestProvider(criteria, false)
+        //return LocationManager.GPS_PROVIDER
     }
 
 
 
     override fun onLocationChanged(location: Location?)
     {
+        Log.d("Location","Location recieved")
         val main_progressbar = MainActivity.act.findViewById(R.id.main_progressbar) as ProgressBar
 
         try
         {
-
+            locationManager.removeUpdates(this)
             if (location != null)
             {
                 val gcd = Geocoder(context, Locale.getDefault())
                 val address = gcd.getFromLocation(location.latitude, location.longitude, 1)
-                if (address.isEmpty()) {
+                if (address.isEmpty())
+                {
                     search_user_text.setText(getString(R.string.couldnt_get_country))
                     main_progressbar.visibility = ProgressBar.INVISIBLE
                     return
                 }
                 val countryname = address[0].countryName
                 search_user_text.setText(countryname)
-
+                Log.d("Location","Grabbed - $countryname")
                 Thread {
+                    Log.d("Location","getting users")
                     val users = GitHub_remote_service.search_user_by_location(countryname, context, 1)
+                    Log.d("Location","Recieved users")
                     MainActivity.act.runOnUiThread {
                         try {
                             search_users_listview.adapter = array_adapter(context, users)
@@ -111,6 +121,13 @@ class search_users_by_location : Fragment(), LocationListener
     override fun onProviderDisabled(provider: String?) {
     }
 
+    override fun onDestroy()
+    {
+        @Suppress("SENSELESS_COMPARISON")
+        if(locationManager!=null)
+            locationManager.removeUpdates(this)
+        super.onDestroy()
+    }
     companion object
     {
 

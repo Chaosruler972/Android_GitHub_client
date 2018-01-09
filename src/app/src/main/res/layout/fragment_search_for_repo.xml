@@ -10,10 +10,10 @@
         android:id="@+id/search_repos_listview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/fragment_search_listview_marginbottom"
+        android:layout_marginEnd="@dimen/fragment_search_listview_marignend"
+        android:layout_marginStart="@dimen/fragment_search_margin_start"
+        android:layout_marginTop="@dimen/fragment_search_margin_top"
         android:scrollbars="horizontal|vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/repo_search_linearlayout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/fragment_search_linear_height"
         android:layoutDirection="ltr"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/fragment_search_txtview_marginend"
             android:layout_weight="1"
             android:text="@string/repo_name"
             android:textAlignment="center" />
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/fragment_search_txtview_marginend"
             android:layout_weight="2"
             android:text="@string/repo_create_date"
 
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/fragment_search_txtview_marginend"
             android:layout_weight="1"
             android:text="@string/repo_language"
             android:textAlignment="center" />
@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/fragment_search_txtview_marginend"
             android:layout_weight="1"
             android:text="@string/repo_is_private"
             android:textAlignment="center" />

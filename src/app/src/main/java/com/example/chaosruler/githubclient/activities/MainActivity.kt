@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity()
                 if (status == TextToSpeech.SUCCESS)
                 {
                     // set US English as language for tts
+                    @Suppress("UNUSED_VARIABLE")
                     val result = tts!!.setLanguage(Locale.US)
 
                 }

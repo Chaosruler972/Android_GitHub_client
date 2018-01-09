@@ -72,8 +72,8 @@
     <ProgressBar
         android:id="@+id/main_progressbar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="200dp"
-        android:layout_height="205dp"
+        android:layout_width="@dimen/progress_bar_width_main"
+        android:layout_height="@dimen/progress_bar_height_main"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:visibility="invisible"

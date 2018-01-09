@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/gists_linearLayout"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/fragment_gist_linearlayout"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

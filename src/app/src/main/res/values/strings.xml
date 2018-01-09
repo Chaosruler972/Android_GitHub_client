@@ -64,6 +64,7 @@
     <string name="no_location">Couldn\'t get location!</string>
     <string name="play_tts_on_code">Play TTS on code</string>
     <string name="play_file_content">Play File content</string>
+    <string name="gist_read_text">Gist read text</string>
 
 
 </resources>
