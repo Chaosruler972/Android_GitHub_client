@@ -17,14 +17,26 @@ import kotlinx.android.synthetic.main.fragment_search_for_repo.*
 import android.widget.ProgressBar
 import android.view.inputmethod.InputMethodManager
 
-
+/**
+ * repo query fragment
+ */
 class search_for_repo : Fragment() {
 
 
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_search_for_repo, container, false)
 
-
+    /**
+     * initates a list with q logic for query Github
+     * @param savedInstanceState the last state of the fragment
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
@@ -60,7 +72,10 @@ class search_for_repo : Fragment() {
     }
     companion object
     {
-
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(): search_for_repo {
            return search_for_repo()

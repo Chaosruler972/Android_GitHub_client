@@ -67,4 +67,7 @@
     <string name="gist_read_text">Gist read text</string>
 
 
+    <!-- Encryption -->
+    <string name="ENC_KEY">KEY</string>
+
 </resources>

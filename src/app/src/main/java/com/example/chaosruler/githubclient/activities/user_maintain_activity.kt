@@ -13,10 +13,23 @@ import com.example.chaosruler.githubclient.dataclasses.User
 import com.example.chaosruler.githubclient.services.themer
 import kotlinx.android.synthetic.main.activity_user_maintain_activity.*
 
+/**
+ * an activity to maintain user and its database
+ */
 class user_maintain_activity : Activity() {
 
+    /**
+     * the db that has all the users
+     */
     private lateinit var db: user_database_helper
+    /**
+     * the adapter that populates the spinner
+     */
     private lateinit var adapter: ArrayAdapter<User>
+
+    /**
+     * initates all the logic by calling subroutines
+     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
@@ -26,18 +39,19 @@ class user_maintain_activity : Activity() {
         init_spinner()
         init_buttons()
     }
-    /*
-                  inits dataases
-           */
+
+    /**
+     *   inits dataases
+     */
     private fun init_dbs()
     {
         db = user_database_helper(baseContext)
         adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, db.get_entire_db())
     }
 
-    /*
-                   inits spinner
-            */
+    /**
+     *    inits spinner
+     */
     private fun init_spinner()
     {
         val users = db.get_entire_db()
@@ -59,9 +73,9 @@ class user_maintain_activity : Activity() {
         }
     }
 
-    /*
-                  inits buttons
-           */
+    /**
+     * inits buttons
+     */
     private fun init_buttons()
     {
         // button to activate subroutine to delete a user from database
@@ -106,9 +120,9 @@ class user_maintain_activity : Activity() {
         })
     }
 
-    /*
-                  inits reset both password fields
-           */
+    /**
+     *  inits reset both password fields
+     */
     private fun reset_password_fields() {
         // subroutine to reset the password fields to their defaults (meaning like it was when the activity first launched)
         delete_password1_edittext.isEnabled = false
@@ -117,9 +131,10 @@ class user_maintain_activity : Activity() {
         delete_password2_textview.text.javaClass
         delete_send_changes_btn.visibility = View.INVISIBLE
     }
-    /*
-                   inits go back to new login activity
-            */
+
+    /**
+     * inits go back to new login activity
+     */
     override fun onBackPressed() // overridden to make sure that pressing back right now will return us to the login activity, and won't exit the app, also reloading the login activity will reload the spinner on the login activity
     {
         val intent = Intent(this@user_maintain_activity, LoginActivity::class.java)

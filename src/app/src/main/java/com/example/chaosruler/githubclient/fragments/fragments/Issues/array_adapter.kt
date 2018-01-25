@@ -15,8 +15,18 @@ import android.net.Uri
 import android.widget.ImageButton
 import com.example.chaosruler.githubclient.activities.RepoView_Activity
 
-
+/**
+ * an array adapter that populates the listview inside issues fragment
+ */
 class array_adapter(context: Context,arr:Vector<issue>):ArrayAdapter<issue>(context, R.layout.item_issue,arr.toTypedArray()) {
+    /**
+     * inflates a view from list at the item in position specified and sets the view data
+     * and initates the view's logic
+     * @param convertView the view of this item if recycled
+     * @param parent the parent that holds this view (the listview)
+     * @param position the position in the array we should take the data from
+     * @return a view with initated logic and data
+     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         @Suppress("NAME_SHADOWING")
         val convertView: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_issue, parent, false)

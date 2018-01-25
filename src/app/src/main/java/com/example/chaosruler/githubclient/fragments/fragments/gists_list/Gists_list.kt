@@ -19,14 +19,30 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
+/**
+ * a fragment that loads a user's gists
+ */
 class Gists_list : Fragment() {
 
-
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_gists_list, container, false)
 
-
+    /**
+     * the username that we want to load his gists
+     */
     private lateinit var username:String
+    /**
+     * builds the adapter that scans and loads a user gists
+     * if no reponame\username was sent
+     * @param savedInstanceState the last state of the fragment
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
@@ -69,7 +85,12 @@ class Gists_list : Fragment() {
 
     companion object
     {
-
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @param context the context that is required to generate keys from strings.xml
+         *  @param user the user that has those gists
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(user:String,context: Context): Gists_list
         {

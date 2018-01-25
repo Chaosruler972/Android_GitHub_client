@@ -1,25 +1,47 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.example.chaosruler.githubclient.SQLite
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.dataclasses.User
 import java.util.*
 import kotlin.collections.HashMap
-import android.net.wifi.WifiManager
-import com.example.chaosruler.githubclient.services.themer
 
 
+/**
+ * an implentation of user database using the abstract database helper and User data class
+ * @see User
+ * @see local_SQL_Helper
+ * @constructor gets only the context, the rest is generated from strings.xml file
+ */
 @Suppress("unused", "MemberVisibilityCanPrivate")
-class user_database_helper(private val con: Context) : local_SQL_Helper(con, con.getString(R.string.USER_database_filename), null, con.resources.getInteger(R.integer.USER_DB_VERSION), con.getString(R.string.USER_TABLE_NAME)) {
+class user_database_helper(
+        /**
+         * a context that we use in order to do android operations, such as getting
+         * strings.xml data
+         */
+        con: Context
+) : local_SQL_Helper(
+        con,
+        con.getString(R.string.USER_database_filename),
+        null, con.resources.getInteger(R.integer.USER_DB_VERSION),
+        con.getString(R.string.USER_TABLE_NAME))
+{
+    /**
+     * the User id field name
+     */
     private val USERS_ID: String = con.getString(R.string.USER_COL_ID)
+    /**
+     * the password field name
+     */
     private val PASSWORD: String = con.getString(R.string.USER_COL_PASSWORD)
 
 
-    /*
-        MUST BE CALLED, it reports to the database about the table schema, is used by the abstracted
-        SQL class
+    /**
+     * MUST BE CALLED, it reports to the database about the table schema, is used by the abstracted
+     * SQL class
      */
     init
     {
@@ -31,9 +53,11 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
 
     }
 
-    /*
-        provides info for the abstracted SQL class
-        on what the table schema is for creation
+    /**
+     * provides info for the abstracted SQL class
+     * on what the table schema is for creation
+     * function is responsible for generating the data for CREATE DB statement
+     * @param db an instance of the database we are working with
      */
     override fun onCreate(db: SQLiteDatabase) {
 
@@ -44,11 +68,15 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
     }
 
 
-    /*
-        add user mechanism
-        if user is invalid, forget about it
-        if user is valid, and it exists, update it
-        if its a new user, add a new user to table
+    /**
+     *
+     * add user mechanism
+     * if user is invalid, forget about it
+     * if user is valid, and it exists, update it
+     * if its a new user, add a new user to table
+     * @param username the username data
+     * @param password the password data
+     * @return true upon success, false otherwsise
      */
     fun add_user(username: String, password: String) // subroutine that manages the user adding operation to the database
             : Boolean {
@@ -67,12 +95,11 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
         */
     }
 
-    /*
-        checks if user exists, query is not that smart, gets an ENTIRE table and than checks
-        if the user is there
-
-        // on update
-        will select USERNAME only
+    /**
+     * checks if user exists, query is not that smart, gets an ENTIRE table and than checks
+     * if the user is there
+     * @param username the name of the username we want to check
+     * @return true if found, false otherwise
      */
     fun check_user(username: String) // subroutine to check if users exists on the database
             : Boolean {
@@ -82,9 +109,11 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
         return user != null
     }
 
-    /*
-        subroutine in charge of feeding schema and database information to SQL
-        abstract implentation on insert queries
+
+    /**
+     * Inserts user to database, not caring if it exists already or not
+     * @param username username data
+     * @param password the password data
      */
     private fun insert_user(username: String, password: String) // subroutine to insert a user to the database
     {
@@ -94,13 +123,18 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
 
         val data: HashMap<String, String> = HashMap()
         data[USERS_ID] = username
-        data[PASSWORD] = String(themer.xorWithKey(password.toByteArray(),get_device_id().toByteArray()))
+        data[PASSWORD] = password
         everything_to_add.addElement(data)
         add_data(everything_to_add)
     }
-    /*
-        subroutine in charge of feeding information and database information to
-        SQL abstraction on update queries
+
+    /**
+     * subroutine in charge of feeding information and database information to
+     * SQL abstraction on update queries
+     * updates user password
+     * @param username the name of the username we want to update it's password
+     * @param password the new password
+     * @return true if successfull for at least one user, false otherwise
      */
     fun update_user(username: String, password: String) // subroutine to update data of a user that exists on the database
             : Boolean {
@@ -108,13 +142,16 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
             return false
 
         val change_to: HashMap<String, String> = HashMap()
-        change_to[PASSWORD] = String(themer.xorWithKey(password.toByteArray(),get_device_id().toByteArray()))
+        change_to[PASSWORD] = password
         return update_data(USERS_ID, arrayOf(username),change_to)
     }
 
-    /*
-        subroutine in charge of feeding information and database information to
-        SQL abstraction on delete queries
+    /**
+     *  subroutine in charge of feeding information and database information to
+     *  SQL abstraction on delete queries
+     *  deletes a user from the table by name
+     *  @param username the username of the user we want to delete
+     *  @return true if successfull, false otherwise
      */
     fun delete_user( username: String):Boolean // subroutine to delete a user from the database (local)
     {
@@ -126,22 +163,25 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
 
     }
 
-    /*
-        subroutine that converts the entire table from hashmap to vector of users
+    /**
+     *    subroutine that converts the entire table from hashmap to vector of users
+     *    @return the entire database as a vector of User objects
      */
     fun get_entire_db():Vector<User> // subroutine to get the entire database as an iterateable vector
     {
         val users: Vector<User> = Vector()
         val vector: Vector<HashMap<String, String>> = get_db()
         vector
-                .map { User(it[USERS_ID].toString(), String(themer.xorWithKey(it[PASSWORD].toString().toByteArray(),get_device_id().toByteArray()))) }
+                .map { User(it[USERS_ID].toString(), (it[PASSWORD]?:"").trim()) }
                 .forEach { users.addElement(it) }
         return users
     }
 
-    /*
-        subroutine that is in charge of getting the user class
-        by query
+    /**
+     * subroutine that is in charge of getting the user class
+     *  by query
+     *  @param username the username of the user we want to get
+     *  @return if the user was found, we return it's object representation, otherwise returns NULL
      */
     fun get_user_by_id(username: String) // subroutine to get a User object representing a user by the user id (username)
             : User?
@@ -151,30 +191,16 @@ class user_database_helper(private val con: Context) : local_SQL_Helper(con, con
         val input_map = HashMap<String, String>()
         input_map[USERS_ID] = "'$username'"
         val vector = get_rows(input_map)
-
         if(vector.size > 0)
         {
-            return User((vector.firstElement()[USERS_ID]?:"").trim(),String(themer.xorWithKey((vector.firstElement()[PASSWORD]?:"").trim().toByteArray(),get_device_id().toByteArray())) )
+            return User( (vector.firstElement()[USERS_ID]?:"").trim(),(vector.firstElement()[PASSWORD]?:"").trim() )
         }
 
-
-        /*
-        val users = get_entire_db()
-        for (user in users) {
-            if(user.get__username()!=null && user.get__username() == username)
-                return user
-                */
 
         return null
     }
 
 
-    @SuppressLint("WifiManagerPotentialLeak", "HardwareIds")
-    private fun get_device_id():String
-    {
-        val wifiManager = con.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wInfo = wifiManager.connectionInfo
-        return wInfo.macAddress
-    }
+
 
 }

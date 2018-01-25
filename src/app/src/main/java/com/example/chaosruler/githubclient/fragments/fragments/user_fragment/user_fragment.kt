@@ -16,14 +16,32 @@ import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import com.example.chaosruler.githubclient.services.load_Image_from_URL
 import kotlinx.android.synthetic.main.fragment_user.*
 
-
+/**
+ * a user fragment, shows user daa
+ */
 class user_fragment : Fragment()
 {
-
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_user, container, false)
 
+    /**
+     * when data loading is done
+     */
     private var done:Boolean=false
+
+    /**
+     * is responisble of calling in a threadded way the function that loads and queries the data
+     * required to show on this fragment, call is threadded and non-blocked
+     * @param savedInstanceState the last state of this fragment
+     * @exception IllegalStateException if not called from getInstance() and manually constructed instead and arguements weren't set
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
@@ -125,12 +143,13 @@ class user_fragment : Fragment()
 
     }
 
-    /*
-        generator
-     */
+
     companion object
     {
-
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(): user_fragment {
             return user_fragment()

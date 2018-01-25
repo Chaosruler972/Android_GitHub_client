@@ -18,15 +18,35 @@ import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import kotlinx.android.synthetic.main.fragment_issues.*
 
 
+/**
+ * a fragment that displays issue of a specified repo
+ */
 class Issues_fragment : Fragment()
 {
 
-
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_issues, container, false)
 
+    /**
+     * the reponame that we want to scan it's content
+     */
     private lateinit var repo_name:String
+    /**
+     * the username that has the repo that we want to scan its content
+     */
     private lateinit var user_name:String
+    /**
+     * builds the adapter that scans and loads a repo's issues
+     * if no reponame\username was sent, we exit
+     * @param savedInstanceState the last state of the fragment
+     */
     @SuppressLint("SetJavaScriptEnabled")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -62,7 +82,13 @@ class Issues_fragment : Fragment()
 
     companion object
     {
-
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @param context the context that is required to generate keys from strings.xml
+         *  @param repo the repo name that we want to scan
+         *  @param user the user that has that repo
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(context: Context, user:String, repo:String): Issues_fragment {
             val bundle = Bundle()

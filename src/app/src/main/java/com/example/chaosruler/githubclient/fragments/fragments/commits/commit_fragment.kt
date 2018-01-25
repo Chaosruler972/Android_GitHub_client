@@ -16,15 +16,33 @@ import kotlinx.android.synthetic.main.fragment_commit_fragment.*
 
 
 /**
- * A simple [Fragment] subclass.
+ * A simple fragment that loads a repo's commits
  */
 class commit_fragment : Fragment() {
 
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_commit_fragment, container, false)
-
+    /**
+     * the reponame that we want to scan it's content
+     */
     private lateinit var repo_name:String
+    /**
+     * the username that has the repo that we want to scan its content
+     */
     private lateinit var user_name:String
+
+    /**
+     * builds the adapter that scans and loads a repo's commits
+     * if no reponame\username was sent, we exit
+     * @param savedInstanceState the last state of the fragment
+     */
     @SuppressLint("SetJavaScriptEnabled")
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
@@ -60,7 +78,13 @@ class commit_fragment : Fragment() {
 
     companion object
     {
-
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @param context the context that is required to generate keys from strings.xml
+         *  @param repo the repo name that we want to scan
+         *  @param user the user that has that repo
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(context: Context, user:String, repo:String): commit_fragment {
             val bundle = Bundle()

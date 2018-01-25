@@ -1,4 +1,18 @@
 package com.example.chaosruler.githubclient.dataclasses
 
-
-class gist_file(val filename:String, val data:String, @Suppress("unused") val language:String)
+/**
+ * Gist file itself representation (dataclass)
+ */
+class gist_file(
+        /**
+         * the filename of the gist
+         */
+        val filename:String,
+        /**
+         * the data inside the gist (the text itself)
+         */
+        val data:String,
+        /**
+         * the language it was written on (C/Java/English?!?)
+         */
+        @Suppress("unused") val language:String)

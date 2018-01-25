@@ -20,16 +20,30 @@ import java.util.*
 
 
 /**
- * A simple [Fragment] subclass.
+ * A simple Search by user fragment subclass, implenets location listener to grab location to search by it
  */
 class search_users_by_location : Fragment(), LocationListener
 {
 
 
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_search_users_by_location, container, false)
 
+    /**
+     * the location manager responsible to get an update of the current location
+     */
     private lateinit var locationManager:LocationManager
+    /**
+     * gets a location update and update list with the closest users to me
+     * @param savedInstanceState the last state of the fragment
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
@@ -50,6 +64,10 @@ class search_users_by_location : Fragment(), LocationListener
     }
 
 
+    /**
+     * a simple function to get better provider for the location query
+     * @return the better provider for location
+     */
     @Suppress("unused")
     private fun best_location_provider():String
     {
@@ -64,7 +82,10 @@ class search_users_by_location : Fragment(), LocationListener
     }
 
 
-
+    /**
+     * if location was updated, we should query by this location (called once!)
+     * @param location the location that was updated to me, null if no location present
+     */
     override fun onLocationChanged(location: Location?)
     {
         Log.d("Location","Location recieved")
@@ -112,15 +133,25 @@ class search_users_by_location : Fragment(), LocationListener
         }
     }
 
+    /**
+     * api implentation that I had to override
+     */
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
     }
-
+    /**
+     * api implentation that I had to override
+     */
     override fun onProviderEnabled(provider: String?) {
     }
-
+    /**
+     * api implentation that I had to override
+     */
     override fun onProviderDisabled(provider: String?) {
     }
 
+    /**
+     * when we destroy this fragment, we should close the location service update request
+     */
     override fun onDestroy()
     {
         @Suppress("SENSELESS_COMPARISON")
@@ -130,7 +161,10 @@ class search_users_by_location : Fragment(), LocationListener
     }
     companion object
     {
-
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(): search_users_by_location {
             return search_users_by_location()

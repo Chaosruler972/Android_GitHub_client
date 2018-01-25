@@ -22,10 +22,20 @@ import java.io.InputStream
 import java.net.URL
 import java.nio.charset.Charset
 
-
+/**
+ * an array adapter that populates the listview inside repo_files fragment
+ */
 @Suppress("unused")
 class repo_files_arrayadapter(context: Context, arr:Array<RepositoryContents>, private val contentsService: ContentsService, private val repo_files_fragment: repo_files_fragment) :ArrayAdapter<RepositoryContents>(context, R.layout.item_file,arr)
 {
+    /**
+     * inflates a view from list at the item in position specified and sets the view data
+     * and initates the view's logic
+     * @param convertView the view of this item if recycled
+     * @param parent the parent that holds this view (the listview)
+     * @param position the position in the array we should take the data from
+     * @return a view with initated logic and data
+     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
     {
         @Suppress("NAME_SHADOWING")
@@ -142,8 +152,10 @@ class repo_files_arrayadapter(context: Context, arr:Array<RepositoryContents>, p
         return convertView
     }
 
-    /*
-        self made function, instead of looping
+    /**
+     *  self made function, instead of looping
+     *  @param charset the charset that we read by, default is UTF-8
+     *  @return a string that represetns the InputSstreams's data at Charset specified
      */
     private fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String {
         return this.bufferedReader(charset).use { it.readText() }

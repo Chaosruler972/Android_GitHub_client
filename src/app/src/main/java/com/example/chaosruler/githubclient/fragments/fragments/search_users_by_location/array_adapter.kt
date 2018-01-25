@@ -17,8 +17,18 @@ import com.example.chaosruler.githubclient.services.themer
 import java.util.*
 import android.util.Log
 
-
+/**
+ * an array adapter that populates the listview inside search_users_by_location fragment
+ */
 class array_adapter(context: Context, arr: Vector<search_user>): ArrayAdapter<search_user>(context, R.layout.item_search_user,arr.toTypedArray()) {
+    /**
+     * inflates a view from list at the item in position specified and sets the view data
+     * and initates the view's logic
+     * @param convertView the view of this item if recycled
+     * @param parent the parent that holds this view (the listview)
+     * @param position the position in the array we should take the data from
+     * @return a view with initated logic and data
+     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         @Suppress("NAME_SHADOWING")
         val convertView: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_search_user, parent, false)

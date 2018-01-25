@@ -14,10 +14,20 @@ import kotlinx.android.synthetic.main.activity_display_file.*
 import uk.co.senab.photoview.PhotoViewAttacher
 
 
-
+/**
+ * activity that opens each time we want to display a file data (be it repo content or gist)
+ */
 class display_file_activity : Activity() {
 
+    /**
+     * the data we want to read
+     */
     private lateinit var data:ByteArray
+
+    /**
+     * load file data and parse it
+     * @param savedInstanceState the last state of the activity
+     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))

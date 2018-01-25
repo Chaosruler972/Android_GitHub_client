@@ -18,13 +18,28 @@ import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import kotlinx.android.synthetic.main.fragment_repo_data.*
 
 
+/**
+ * a repo data fragment, shows the data of a repo (satistics and etcetra)
+ */
 class repo_data : Fragment() {
 
 
-
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_repo_data, container, false)
 
+    /**
+     * is responisble of calling in a threadded way the function that loads and queries the data
+     * required to show on this fragment, call is threadded and non-blocked
+     * @param savedInstanceState the last state of this fragment
+     * @exception IllegalStateException if not called from getInstance() and manually constructed instead and arguements weren't set
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val repo_name = arguments.getString(getString(R.string.repo_name_key))
@@ -72,12 +87,17 @@ class repo_data : Fragment() {
         }.start()
     }
 
-    /*
-      generator
-   */
+
     companion object
     {
 
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @param context the context that is required to generate keys from strings.xml
+         *  @param repo the repo name that we want to scan
+         *  @param user the user that has that repo
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(context: Context,user:String,repo:String): repo_data {
             val bundle = Bundle()

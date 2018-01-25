@@ -46,10 +46,23 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private var mAuthTask: UserLoginTask? = null
+    /**
+     * autologin or manual login? true = auto, false= manual
+     */
     private var status: Boolean = false
+    /**
+     * user database to update after successfull login
+     * or populate auto login
+     */
     private lateinit var db : user_database_helper
+    /**
+     * populate spinner for auto login
+     */
     private var adapter: ArrayAdapter<User>? = null
 
+    /**
+     * creates entire logic for login activity
+     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
@@ -91,6 +104,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         email_sign_in_button.setOnClickListener { attemptLogin() }
     }
 
+    /**
+     * populate contacts read auto complete
+     */
     private fun populateAutoComplete() {
         if (!mayRequestContacts()) {
             return
@@ -99,6 +115,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         loaderManager.initLoader(0, null, this)
     }
 
+    /**
+     * requests contact permission for contact data autocomplete
+     */
     @SuppressLint("ObsoleteSdkInt")
     private fun mayRequestContacts(): Boolean
     {
@@ -188,11 +207,19 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * verifies user is valid
+     * @return always true
+     */
     private fun isEmailValid(@Suppress("UNUSED_PARAMETER") email: String): Boolean {
         //return email.contains("@")
         return true
     }
 
+    /**
+     * veriffies password is valid
+     * @return true if it accepts Github password patterns
+     */
     private fun isPasswordValid(password: String): Boolean {
 
         // length -> 7, one number, one lowercase character
@@ -240,6 +267,10 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * create loader for contacts autocomplete
+     * @return the cursor of the data loaded
+     */
     override fun onCreateLoader(i: Int, bundle: Bundle?): Loader<Cursor> {
         return CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
@@ -255,6 +286,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC")
     }
 
+    /**
+     * pooulate loader when done
+     */
     override fun onLoadFinished(cursorLoader: Loader<Cursor>, cursor: Cursor) {
         val emails = ArrayList<String>()
         cursor.moveToFirst()
@@ -266,10 +300,16 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         addEmailsToAutoComplete(emails)
     }
 
+    /**
+     * when loader was reset, empty catch
+     */
     override fun onLoaderReset(cursorLoader: Loader<Cursor>) {
 
     }
 
+    /**
+     * adapter for contacts autocomplete
+     */
     private fun addEmailsToAutoComplete(emailAddressCollection: List<String>) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         val adapter = ArrayAdapter(this@LoginActivity,
@@ -278,11 +318,14 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         email.setAdapter(adapter)
     }
 
+    /**
+     * profile query for contacts autocomplete
+     */
     object ProfileQuery {
         val PROJECTION = arrayOf(
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY)
-        val ADDRESS = 0
+        const val ADDRESS = 0
         @Suppress("unused")
         val IS_PRIMARY = 1
     }
@@ -294,11 +337,17 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     @SuppressLint("StaticFieldLeak")
     inner class UserLoginTask internal constructor(private val mEmail: String, private val mPassword: String) : AsyncTask<Void, Void, Boolean>() {
 
+        /**
+         * login done in a different thread
+         */
         override fun doInBackground(vararg params: Void): Boolean?
         {
             return GitHub_remote_service.login(mEmail,mPassword)
         }
 
+        /**
+         * if login was succeeded, go to main activity with user data, else point to the trouble
+         */
         override fun onPostExecute(success: Boolean?) {
             mAuthTask = null
             showProgress(false)
@@ -318,6 +367,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             }
         }
 
+        /**
+         * when login operation was canceled
+         */
         override fun onCancelled() {
             mAuthTask = null
             showProgress(false)
@@ -329,7 +381,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         /**
          * Id to identity READ_CONTACTS permission request.
          */
-        private val REQUEST_READ_CONTACTS = 0
+        private const val REQUEST_READ_CONTACTS = 0
 
 
     }
@@ -338,11 +390,18 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         Menu functions
      */
 
+    /**
+     * inflates a menu to move between user maintain activity and setting activity
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
         return true
     }
+
+    /**
+     * event listener for item selection on menu
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.login_switch ->
@@ -366,6 +425,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         return true
     }
 
+    /**
+     * switch between auto user login and manual complete
+     */
     private fun switch(item:MenuItem)
     {
         status = !get_status()
@@ -392,6 +454,10 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             password.text.clear()
         }
     }
+
+    /**
+     * get the status of current login form (auto or manual?)
+     */
     private fun get_status():Boolean
             = this.status
 }

@@ -20,18 +20,50 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+/**
+ * a Singleton class represnting the extetnsion of the API that I got from eclipse (egit)
+ * that handles git requests, also usage of this functions are more favored by mr me developer
+ * @constructor as a singleton object, this doesn't need to be constructed
+ */
 @Suppress("unused", "UNUSED_VARIABLE", "NAME_SHADOWING")
 object GitHub_remote_service
 {
+    /**
+     * a represention of egit Github client for API usage
+     */
     private var client:GitHubClient = GitHubClient()
     @Suppress("unused")
+    /**
+     * a representation of egit Github Repository Service for API usage
+     */
     private var repo_service:RepositoryService = RepositoryService()
+    /**
+     * a representation of egit Github User service for API usage
+     */
     private var user_service:UserService = UserService()
+    /**
+     * a representation of egit Commit Service for API usage
+     */
     private var commit_service:CommitService = CommitService()
+    /**
+     * a representation of egit gist service for API usage
+     */
     private var gist_service:GistService = GistService()
+    /**
+     * a representation of egit data service for API usage
+     */
     private var data_service:DataService = DataService()
+    /**
+     * a representation of egit Issue service for API usage
+     */
     private var issue_service:IssueService = IssueService()
 
+    /**
+     * Login to github server - validates login
+     * @param username the user name
+     * @param password the password
+     * @return true if successfull login, false otherwise
+     */
     fun login(username:String,password:String): Boolean
     {
         client.setCredentials(username,password)
@@ -63,10 +95,25 @@ object GitHub_remote_service
         }
     }
 
+    /**
+     * Gets the username if exists
+     * @return username as a String
+     * @exception IllegalStateException when called before login was successful
+     */
     fun get_name():String = user_service.user.name
 
+    /**
+     * Gets user profile picture URL
+     * @return a string represneting the URL of user profile
+     * @exception IllegalStateException when called before login was successfull
+     */
     fun get_pic_url():String = user_service.user.avatarUrl
 
+
+    /**
+     * scan repositories and put them in a vector and return it (of loginned user)
+     * @return a vector of the user's repositories
+     */
     fun list_self_repositories(): Vector<repo> {
         val list_of_repos:Vector<repo> = Vector()
         repo_service.repositories.map { list_of_repos.addElement(repo(
@@ -87,14 +134,36 @@ object GitHub_remote_service
         return list_of_repos
     }
 
+    /**
+     * the email of he login username
+     * @return the email address of the username if configured, otherwise "Not provided" is returned
+     */
     fun get_email():String = user_service.user.email?:"Not provided"
 
+    /**
+     * the location (country) of he login username
+     * @return the country of the username if configured, otherwise "Not provided" is returned
+     */
     fun get_location():String = user_service.user.location?:"Not provided"
 
+    /**
+     * the disk usage as computed by API
+     * @return the disk usage in bytes
+     */
     fun get_disk_usage():Int = user_service.user.diskUsage
 
+    /**
+     * returns the total repos that we have
+     * @return the amount of repos user has
+     */
     fun get_total_repos():Int = user_service.user.publicRepos + user_service.user.ownedPrivateRepos
 
+    /**
+     * query a repo by repo's id and username
+     * @param repo_name the reponame that we want to query
+     * @param user_name the username that we want to query
+     * @return a repo matching the query criteria, empty repo otherwise)
+     */
     fun get_repo_by_id_and_name(repo_name:String,user_name:String):repo
     {
         val server_data = repo_service.getRepository(user_name,repo_name)
@@ -114,6 +183,12 @@ object GitHub_remote_service
                 server_data.isHasWiki)
     }
 
+    /**
+     * Get the login user Content Service for API usage
+     * @param repo_name the repo name that we want to scan content service of
+     * @param user_name the username that we want to scan content sevice of
+     * @return the content service
+     */
     fun get_ContentService(repo_name: String,user_name: String):ContentsService
     {
         Log.d("GitHub","Before CS")
@@ -124,6 +199,12 @@ object GitHub_remote_service
         return contenstService
     }
 
+    /**
+     * returns RepoID( a key for each repo independt of username and reponame)
+     * @param repo_name the reponame that we want to query
+     * @param user_name the username that we want to query
+     * @return the resulting key from Github that represents the repo without using reponame and username to query
+     */
     private fun get_repository_ID(repo_name: String, user_name: String): RepositoryId
     {
         Log.d("GitHub","Before ID")
@@ -132,6 +213,13 @@ object GitHub_remote_service
         return repoid
     }
 
+    /**
+     * get content of a repo in directory
+     * @param path the path we want to scan, "/" is default
+     * @param repo_name the reponame that we want to scan
+     * @param user_name the username that we want to scan
+     * @return a list of all repo content in path specified
+     */
     fun get_content(repo_name: String,user_name: String, path:String = "/"): MutableList<RepositoryContents>? = ContentsService(client).getContents(get_repository_ID(repo_name,user_name),path)
 
     fun get_repo_url(repo_name: String,user_name: String): String? {
@@ -139,8 +227,12 @@ object GitHub_remote_service
         return server_data.url
     }
 
-    /*
-        get gists via HTTP
+    /**
+     * get gists via HTTP, gists of username is scanned (page number is for recursive iteration)
+     * @param context the context we need to grab url from strings.xml
+     * @param page_number the page number we last visited, should start from 0, this function will iterate by itself knowing the amount from configuration
+     * @param user_name the username that we want to scan his gists
+     * @return a vector of gists upon success, empty vector otherwise
      */
     @Suppress("UNUSED_VARIABLE")
     fun get_gists(user_name: String, context: Context, page_number:Int):Vector<gist>
@@ -276,12 +368,20 @@ object GitHub_remote_service
 
     }
 
+    /**
+     * gets the client login (not username)
+     * @return clients login (usually email) as oppsoed to username, empty otherwise (not loginned)
+     */
     fun get_login():String = client.user?:""
 
 
-/*
-    search for repos by string arguement
- */
+    /**
+     * search for repos by string arguement, this is a recursive function iterated by page number
+     * @param context the context we work with for configuration managing
+     * @param page_number the page number we are on, should be inited to 0, function would call the rest until settings configuration limit is set
+     * @param search_arguements the arguements we search by
+     * @return vector of repos that match the criteria
+     */
     fun search_for_repos(search_arguements:String,page_number: Int,context: Context):Vector<repo>
     {
         val vector:Vector<repo> = Vector()
@@ -312,8 +412,12 @@ object GitHub_remote_service
         }
     }
 
-    /*
-        self implented API call, gets all the issues in self made objectified vector
+    /**
+     * self implented API call, gets all the issues in self made objectified vector
+     * @param context the context we work with to generate configuration and urls
+     * @param reponame the reponame that we want to grab its issues
+     * @param user_name the username that has the repo we want to grab his issues
+     * @return a vector of issues matching criteria
      */
     fun get_issues(reponame:String,user_name: String,context: Context): Vector<issue> {
         val vector:Vector<issue> = Vector()
@@ -362,9 +466,13 @@ object GitHub_remote_service
         return vector
     }
 
-    /*
-        self made API reimplentation, generally uses HTTP calls to get all commits and comments and put them in
-        objectified vector
+    /**
+     * self made API reimplentation, generally uses HTTP calls to get all commits and comments and put them in
+     * objectified vector
+     * @param context the context we work with to generate url and configuration
+     * @param repo_name the reponame that we get its commits
+     * @param user_name the username that has that repo
+     * @return a vector of commits matching criteria
      */
     @SuppressLint("SimpleDateFormat")
     @Suppress("UNUSED_VALUE")
@@ -514,6 +622,13 @@ object GitHub_remote_service
         return vector
     }
 
+    /**
+     * a self implentation function to query Github to find local users, this is a recursive function that uses page number to know when to stop
+     * @param context the context we work with to generate URL and configurations
+     * @param location the location we want to scan
+     * @param page_number the page number we are on, inited to 0, and calls the rest until configartion limit is set
+     * @return a list of users that match criteria
+     */
     @Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
     fun search_user_by_location(location:String, context: Context, page_number: Int):Vector<search_user>
     {

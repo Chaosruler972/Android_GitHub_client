@@ -21,12 +21,26 @@ import kotlinx.android.synthetic.main.activity_repo_view.*
 import java.util.*
 
 
+/**
+ * a repoView activity, when viewing a repo (be it mine or queried), this view opens tab for that
+ */
 class RepoView_Activity : AppCompatActivity() {
 
     companion object {
+        /**
+         * this activity, for easier communication between fragments and activity (buggy a bit using .getActivity on kotlin)
+         */
         @SuppressLint("StaticFieldLeak")
         var act: AppCompatActivity? = null
+        /**
+         * tts engine to read content when needed
+         */
         var tts:TextToSpeech? = null
+
+        /**
+         * call for tts engine to read a string
+         * @param string the string to read
+         */
         @Suppress("unused")
         fun speakOut(string:String)
         {
@@ -55,30 +69,31 @@ class RepoView_Activity : AppCompatActivity() {
      * [android.support.v4.app.FragmentStatePagerAdapter].
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+    /**
+     * the repo name of the repo we want to view
+     */
     private lateinit var repo_name:String
+    /**
+     * the username of the repo we want to view
+     */
     private lateinit var user_name:String
 
+    /**
+     * on create, creates the logic of creating a tab view with multiple fragments set
+     */
     @Suppress("UNUSED_VARIABLE")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
         super.onCreate(savedInstanceState)
-        tts = TextToSpeech(this, object :TextToSpeech.OnInitListener
-        {
-            override fun onInit(status: Int)
-            {
-                if (status == TextToSpeech.SUCCESS)
-                {
-                    // set US English as language for tts
-                    val result = tts!!.setLanguage(Locale.US)
+        tts = TextToSpeech(this, TextToSpeech.OnInitListener { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                // set US English as language for tts
+                val result = tts!!.setLanguage(Locale.US)
 
-                }
-                else
-                {
-                    Log.e("TTS", "Initilization Failed!")
-                }
+            } else {
+                Log.e("TTS", "Initilization Failed!")
             }
-
         })
         setContentView(R.layout.activity_repo_view)
         /*
@@ -154,9 +169,16 @@ class RepoView_Activity : AppCompatActivity() {
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager, private var amount: Int) : FragmentPagerAdapter(fm)
+    inner class SectionsPagerAdapter(fm: FragmentManager,
+                                     /**
+                                      * the number of tabs we should open, each tab consists a fragment
+                                      */
+                                     private var amount: Int) : FragmentPagerAdapter(fm)
     {
-
+        /**
+         * gets a fragment by id for tab by position
+         * @param position the position of the fragment that we want to get
+         */
         override fun getItem(position: Int): Fragment = when(position)
         {
             /*
@@ -171,12 +193,16 @@ class RepoView_Activity : AppCompatActivity() {
             else-> user_fragment.newInstance()
         }
 
-
+        /**
+         * have to implement this, gets the amount of tabs available
+         */
         override fun getCount(): Int {
             return amount
         }
     }
-
+    /**
+     * should close tts
+     */
     public override fun onDestroy()
     {
         // Shutdown TTS

@@ -16,8 +16,20 @@ import com.example.chaosruler.githubclient.services.themer
 import java.util.*
 
 
+/**
+ * an array adapter that populates the listview inside user_fragment
+ */
 class array_adapter(context: Context,arr:Vector<repo>) : ArrayAdapter<repo>(context, R.layout.item_user_repos,arr.toTypedArray())
 {
+
+    /**
+     * inflates a view from list at the item in position specified and sets the view data
+     * and initates the view's logic
+     * @param convertView the view of this item if recycled
+     * @param parent the parent that holds this view (the listview)
+     * @param position the position in the array we should take the data from
+     * @return a view with initated logic and data
+     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
     {
         @Suppress("NAME_SHADOWING")

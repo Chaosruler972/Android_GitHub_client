@@ -17,16 +17,37 @@ import kotlinx.android.synthetic.main.fragment_wiki_fragment.*
 import android.webkit.WebView
 
 
-
-
+/**
+ * stupidest fragment, initally thought it will always open the wiki page, but since not all repos
+ * has wiki pages, it tries to open that and upon failure it will open the github page instead
+ */
 class Wiki_fragment : Fragment() {
 
 
+    /**
+     * inflates the view
+     * @param container the container of this fragment (activity view holder)
+     * @param inflater the inflater in chrage of infalting this view
+     * @param savedInstanceState the last state of this fragment
+     * @return a view of this fragment
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.fragment_wiki_fragment, container, false)
 
+    /**
+     * the reponame that this fragment will open
+     */
     private lateinit var repo_name:String
+    /**
+     * the username that has the repo this fragment will open
+     */
     private lateinit var user_name:String
+
+    /**
+     * Opens a web page view with the aforementioned data, if data doesn't exist, fragment will
+     * call activities finish and close the activity
+     * @param savedInstanceState the last state of the fragment
+     */
     @SuppressLint("SetJavaScriptEnabled")
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
@@ -74,6 +95,13 @@ class Wiki_fragment : Fragment() {
     companion object
     {
 
+        /**
+         *  generator in a singleton-style of way, only this can be multi-instanced
+         *  @param context the context that is required to generate keys from strings.xml
+         *  @param repo the repo name that we want to scan
+         *  @param user the user that has that repo
+         *  @return a instance of this fragment with that data sent
+         */
         @Suppress("unused")
         fun newInstance(context: Context, user:String, repo:String): Wiki_fragment {
             val bundle = Bundle()

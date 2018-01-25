@@ -26,8 +26,18 @@ class MainActivity : AppCompatActivity()
 
     companion object {
         @SuppressLint("StaticFieldLeak")
+        /**
+         * this activity, for easier communication between fragments and activity (buggy a bit using .getActivity on kotlin)
+         */
         lateinit var act:AppCompatActivity
+        /**
+         * tts engine to read content when needed
+         */
         var tts: TextToSpeech? = null
+        /**
+         * call for tts engine to read a string
+         * @param string the string to read
+         */
         @Suppress("unused")
         fun speakOut(string:String)
         {
@@ -50,6 +60,9 @@ class MainActivity : AppCompatActivity()
         }
     }
 
+    /**
+     * on create, creates the logic of creating a tab view with multiple fragments set
+     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
@@ -104,16 +117,23 @@ class MainActivity : AppCompatActivity()
          */
         main_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener
         {
+            /**
+             * must be implented
+             */
             override fun onTabReselected(tab: TabLayout.Tab?)
             {
 
             }
-
+            /**
+             * must be implented
+             */
             override fun onTabUnselected(tab: TabLayout.Tab?)
             {
 
             }
-
+            /**
+             * must be implented, if tab is selected we should "move" to that tab
+             */
             override fun onTabSelected(tab: TabLayout.Tab?)
             {
                 if(tab != null)
@@ -123,9 +143,20 @@ class MainActivity : AppCompatActivity()
         })
     }
 
+    /**
+     * an adapter that implenets the scrollable tabbing logic
+     */
     inner class PagerAdapter(fragment_manager:FragmentManager,tabs_count:Int):FragmentStatePagerAdapter(fragment_manager)
     {
+        /**
+         * the number of tabs we should open, each tab consists a fragment
+         */
         private val num_of_tabs:Int = tabs_count
+
+        /**
+         * gets a fragment by id for tab by position
+         * @param position the position of the fragment that we want to get
+         */
         override fun getItem(position: Int): Fragment = when(position)
         {
             /*
@@ -137,12 +168,16 @@ class MainActivity : AppCompatActivity()
             3-> search_users_by_location.newInstance()
             else-> search_for_repo.newInstance()
         }
-        /*
-            have to implement this
+
+        /**
+         * have to implement this, gets the amount of tabs available
          */
         override fun getCount(): Int = num_of_tabs
     }
 
+    /**
+     * should close tts
+     */
     public override fun onDestroy()
     {
         // Shutdown TTS

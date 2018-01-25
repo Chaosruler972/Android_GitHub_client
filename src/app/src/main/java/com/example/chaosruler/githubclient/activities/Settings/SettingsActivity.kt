@@ -30,6 +30,9 @@ import com.example.chaosruler.githubclient.services.themer
  */
 class SettingsActivity : AppCompatPreferenceActivity() {
 
+    /**
+     * sets the theme and sets action bar for settings activity
+     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
         setTheme(themer.style(baseContext))
@@ -44,6 +47,9 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * event listener for menu items
+     */
     override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {
         val id = item.itemId
         if (id == android.R.id.home) {
@@ -108,16 +114,17 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
 
         }
-        /*
-               restarts entire app after style change
-    */
+
+        /**
+         *   restarts entire app after style change
+         */
         private fun restart_app()
         {
             startActivity(Intent(activity.baseContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         }
-        /*
-           on option selected event
-    */
+        /**
+         * event listener for menu items
+         */
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             val id = item.itemId
             if (id == android.R.id.home)
