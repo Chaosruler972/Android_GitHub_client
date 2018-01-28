@@ -4,16 +4,14 @@ package com.example.chaosruler.githubclient.services
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.preference.PreferenceManager
-import android.view.View
-import com.example.chaosruler.githubclient.R
-import android.graphics.BitmapFactory
-import kotlin.experimental.xor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.wifi.WifiManager
-import android.util.Base64
+import android.preference.PreferenceManager
+import android.view.View
 import android.widget.ImageView
+import com.example.chaosruler.githubclient.R
 import java.io.ByteArrayOutputStream
 import java.math.BigInteger
 import java.nio.charset.Charset
@@ -113,17 +111,13 @@ object themer
      * @param flag true = decryption, false= encryption
      */
     @SuppressLint("GetInstance")
-    fun xorWithKey(a: ByteArray, key: ByteArray, flag: Boolean, con: Context): ByteArray {
+    fun xorWithKey(a: ByteArray, @Suppress("UNUSED_PARAMETER") key: ByteArray, flag: Boolean, con: Context): ByteArray {
         encryption.generate_key(con)
-        val new_a = to_hebrew_unicode(String(a)).toByteArray()
-        val out = ByteArray(new_a.size)
-        for (i in new_a.indices) {
-            out[i] = (new_a[i] xor key[i % key.size])
-        }
+
         return if (flag)
-            encryption.decrypt(Base64.decode(new_a, Base64.DEFAULT))
+            encryption.decrypt(a)
         else
-            Base64.encode(encryption.encrypt(new_a), Base64.DEFAULT)
+            encryption.encrypt(a)
 
         //return new_a
     }

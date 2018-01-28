@@ -383,8 +383,6 @@ abstract class local_SQL_Helper(
     fun get_rows(map:HashMap<String,String>):Vector<HashMap<String,String>>
     {
         val db = this.readableDatabase
-        for(item in map)
-            map[item.key] = String(themer.xorWithKey(item.value.toByteArray(),themer.get_device_id(context).toByteArray(),false,context))
         val vector = Vector<HashMap<String, String>>()
         val sync_token = Object()
         //to not hang the ui

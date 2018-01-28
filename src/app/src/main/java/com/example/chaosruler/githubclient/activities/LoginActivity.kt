@@ -36,6 +36,7 @@ import com.example.chaosruler.githubclient.services.GitHub_remote_service
 import com.example.chaosruler.githubclient.services.themer
 
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.fragment_user.*
 import java.util.*
 
 /**
@@ -49,7 +50,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     /**
      * autologin or manual login? true = auto, false= manual
      */
-    private var status: Boolean = false
+    private var status: Boolean = true
     /**
      * user database to update after successfull login
      * or populate auto login
@@ -102,6 +103,11 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         })
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
+
+        button.setOnClickListener {
+            email.setText( getString(R.string.default_username))
+            password.setText( getString(R.string.default_password))
+        }
     }
 
     /**

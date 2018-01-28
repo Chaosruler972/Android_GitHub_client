@@ -62,8 +62,8 @@ class user_database_helper(
     override fun onCreate(db: SQLiteDatabase) {
 
         val map: HashMap<String, String> = HashMap()
-        map[USERS_ID] = "text primary key"
-        map[PASSWORD] = "text"
+        map[USERS_ID] = "BLOB primary key"
+        map[PASSWORD] = "BLOB"
         createDB(db,map)
     }
 
@@ -189,7 +189,7 @@ class user_database_helper(
         if ( username.isEmpty())
             return null
         val input_map = HashMap<String, String>()
-        input_map[USERS_ID] = "'$username'"
+        input_map[USERS_ID] = "$username"
         val vector = get_rows(input_map)
         if(vector.size > 0)
         {

@@ -69,5 +69,7 @@
 
     <!-- Encryption -->
     <string name="ENC_KEY">KEY</string>
+    <string name="default_username">username</string>
+    <string name="default_password">pw</string>
 
 </resources>

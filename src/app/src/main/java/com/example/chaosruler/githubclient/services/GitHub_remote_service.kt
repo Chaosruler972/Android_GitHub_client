@@ -403,7 +403,7 @@ object GitHub_remote_service
         )) }
         val amount = PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.sync_frequency),"100").toInt()
 
-        return if(vector.size == 0 || page_number == amount && amount!=0)
+        return if(vector.size == 0 || page_number == amount/100 && amount!=0)
             vector
         else
         {

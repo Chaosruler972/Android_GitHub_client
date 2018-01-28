@@ -61,13 +61,22 @@ class user_fragment : Fragment()
                 {
                     Log.d("User Fragment","No Username to replace")
                 }
+                catch (e:IllegalStateException)
+                {
+                    Log.d("User Fragment","No Username to replace")
+                }
             }
 
             /*
                 subroutine to download avy and set it on ImageView
              */
-            load_Image_from_URL(GitHub_remote_service.get_pic_url(),main_avatar).execute()
-
+            try {
+                load_Image_from_URL(GitHub_remote_service.get_pic_url(), main_avatar).execute()
+            }
+            catch (e:Exception)
+            {
+                Log.d("Avatar","Was null")
+            }
             /*
                 User repoistories list view initation
              */

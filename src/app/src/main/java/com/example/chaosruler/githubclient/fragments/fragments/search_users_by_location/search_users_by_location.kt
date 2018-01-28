@@ -47,7 +47,7 @@ class search_users_by_location : Fragment(), LocationListener
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
         super.onActivityCreated(savedInstanceState)
-        if(context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
+        if(context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             search_user_text.setText(getString(R.string.location_not_granted))
             return
@@ -56,8 +56,19 @@ class search_users_by_location : Fragment(), LocationListener
         main_progressbar.visibility = ProgressBar.VISIBLE
         locationManager = context.getSystemService(LOCATION_SERVICE) as android.location.LocationManager
         //locationManager.requestLocationUpdates(best_location_provider(),0.toLong(),0.toFloat(), this, null)
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0.toLong(),0.toFloat(), this, null)
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0.toLong(),0.toFloat(), this, null)
+        //locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,null)
+        //locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,null)
+        var l:Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if(l == null)
+            l=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        if(l!=null)
+            onLocationChanged(l)
+        else
+        {
+            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,null)
+            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,null)
+        }
+        //onLocationChanged(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER))
 
         Log.d("Location","Request sent")
        // onLocationChanged(locationManager.getLastKnownLocation(best_location_provider())) // just in case
@@ -91,11 +102,18 @@ class search_users_by_location : Fragment(), LocationListener
         Log.d("Location","Location recieved")
         val main_progressbar = MainActivity.act.findViewById(R.id.main_progressbar) as ProgressBar
 
+        if(search_users_listview.adapter != null && search_users_listview.adapter.count > 0)
+            return
         try
         {
-            locationManager.removeUpdates(this)
             if (location != null)
             {
+                if(!Geocoder.isPresent())
+                {
+                    Log.d("Geocoder","Not present")
+                    return
+                }
+                locationManager.removeUpdates(this)
                 val gcd = Geocoder(context, Locale.getDefault())
                 val address = gcd.getFromLocation(location.latitude, location.longitude, 1)
                 if (address.isEmpty())
