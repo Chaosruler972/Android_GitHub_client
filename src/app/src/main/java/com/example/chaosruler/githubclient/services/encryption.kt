@@ -8,11 +8,16 @@ import android.util.Log
 import com.example.chaosruler.githubclient.R
 import com.example.chaosruler.githubclient.services.encryption.encrypt
 import com.example.chaosruler.githubclient.services.encryption.generate_key
-import java.security.KeyStore
+import com.yakivmospan.scytale.Crypto
+import com.yakivmospan.scytale.Options
+import com.yakivmospan.scytale.Store
+import java.io.IOException
+import java.nio.charset.Charset
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 
 /**
@@ -20,6 +25,7 @@ import javax.crypto.spec.IvParameterSpec
  * data stored in local database and local android machine
  * https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
  * AES 256bit was chosen for encryption protocol
+ * @author Chaosruler972
  * @constructor no construction needed, though key Generation is a must before each and every encryption or decryption
  * @sample generate_key(baseContext)
  * @sample encrypt(a.toByteArray())
@@ -29,46 +35,109 @@ object encryption
 {
     /**
      * The secret key representation of AES on Android API
+     * @author Chaosruler972
      * @see javax.crypto.SecretKey
      */
     private var secretKey:SecretKey? = null
-    /**
-     * an empty byteArray for IV initation on encrypting,decrypting, must be zeroed before each encryption/decryption to
-     * make sure that they stand stable
-     * @see javax.crypto.Cipher
-     */
-    private var iv = ByteArray(16)
     /**
      * this function is responsible for generatoin an AES key from the keystore per encryption/decryption, and refreshing the current one
      * @param context a base Context, must not be null, for keyStore access
      */
     fun generate_key(context: Context)
     {
-        iv = ByteArray(16)
         val alias = context.getString(R.string.ENC_KEY)
-        val store = KeyStore.getInstance(KeyStore.getDefaultType())
-        store.load(null,null)
-        Log.d("Store amount",store.size().toString())
+        val store = Store(context)
         if(secretKey==null)
         {
-            if (store.containsAlias(alias))
-            {
-                secretKey = (store.getEntry(alias, null) as KeyStore.SecretKeyEntry).secretKey
+            secretKey = if(store.hasKey(alias)) {
+                val key_to_get_key = store.getSymmetricKey(alias,null)
+
+                get_key_from_file(key_to_get_key,true,context)
             }
             else
             {
-                val keyGen = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,store.provider)
-                keyGen.init(256)
-                secretKey = keyGen.generateKey()
-                if(secretKey==null)
-                    Log.d("Key", "Is null")
-                val skEntry = KeyStore.SecretKeyEntry(secretKey)
-                store.setEntry(alias, skEntry,KeyStore.PasswordProtection(alias.toCharArray()))
+                val key_to_get_key = store.generateSymmetricKey(alias,null)
 
+                get_key_from_file(key_to_get_key,false,context)
             }
+
         }
     }
 
+    /**
+     * Function to generate a key from file and decrypt it to be a secret key
+     * @author Chaosruler972
+     * @param flag true -> we should generate key and save to file, false we should just load from file
+     * @param key_to_encrypt the key to encrypt our key (recursive, eh?)
+     * @return an AES key to use!
+     */
+    private fun get_key_from_file(key_to_encrypt: SecretKey,flag:Boolean,context: Context) : SecretKey?
+    {
+        if(flag) // load from file only
+        {
+            val encoded = ReadFromFile("key.key",context) ?: return null
+            val new_a = Base64.decode(encoded,Base64.DEFAULT)
+            val crypto = Crypto(Options.TRANSFORMATION_SYMMETRIC)
+            val decrypted_from_file = crypto.decrypt(String(new_a), key_to_encrypt).toByteArray(Charset.forName("UTF-8"))
+            return SecretKeySpec(decrypted_from_file,0,decrypted_from_file.size,"AES")
+        }
+        else // generate key and save to file
+        {
+            val crypto = Crypto(Options.TRANSFORMATION_SYMMETRIC)
+            val keyGen = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES)
+            keyGen.init(256)
+            val new_key = keyGen.generateKey()
+            val encoded = new_key.encoded
+            val encoded_and_encrypted_to_file =  Base64.encode(crypto.encrypt(String(encoded), key_to_encrypt).toByteArray(Charset.forName("UTF-8")),Base64.DEFAULT)
+            writeToFile(encoded_and_encrypted_to_file,"key.key",context)
+            return new_key
+        }
+    }
+
+
+    /**
+     * Function to read data from file
+     * @author Chaosruler972
+     * @param fileName the filename that we should read data from
+     * @return the data that we read
+     */
+    private fun ReadFromFile(fileName: String,context: Context) : ByteArray?
+    {
+        var byteArray:ByteArray? = null
+        try
+        {
+            context.openFileInput(fileName).use {
+                byteArray = it.readBytes()
+            }
+
+        }
+        catch (e:IOException)
+        {
+            byteArray = null
+            Log.d("Encryption","Saving to file IO Exception")
+        }
+        return byteArray
+    }
+
+    /**
+     * Function to write data to file
+     * @author Chaosruler972
+     * @param data the data to write
+     * @param fileName the filename that we should write to/open
+     */
+    private fun writeToFile(data: ByteArray, fileName: String,context: Context)
+    {
+        try
+        {
+            context.openFileOutput(fileName,Context.MODE_PRIVATE).use {
+                it.write(data)
+            }
+        }
+        catch (e:IOException)
+        {
+            Log.d("Encryption","Saving to file IO Exception")
+        }
+    }
     /**
      * This function encrypts a byteArray and returns an encrypted form of that byteArray
      * Must call generate_key() before this function
@@ -78,10 +147,12 @@ object encryption
     @SuppressLint("GetInstance")
     fun encrypt(a: ByteArray): ByteArray
     {
-
+        if(secretKey == null || a.isEmpty())
+            return a
         val c = Cipher.getInstance("AES")
-        c.init(Cipher.ENCRYPT_MODE, secretKey!!,IvParameterSpec(iv))
+        c.init(Cipher.ENCRYPT_MODE, secretKey!!,IvParameterSpec(ByteArray(16)))
         return Base64.encode(c.doFinal(a),Base64.DEFAULT)
+
     }
 
     /**
@@ -93,9 +164,12 @@ object encryption
     @SuppressLint("GetInstance")
     fun decrypt(a:ByteArray): ByteArray
     {
+
+        if(secretKey == null || a.isEmpty())
+            return a
         val new_a = Base64.decode(a,Base64.DEFAULT)
         val c = Cipher.getInstance("AES")
-        c.init(Cipher.DECRYPT_MODE, secretKey!!,IvParameterSpec(iv))
+        c.init(Cipher.DECRYPT_MODE, secretKey!!,IvParameterSpec(ByteArray(16)))
         return c.doFinal(new_a)
     }
 
