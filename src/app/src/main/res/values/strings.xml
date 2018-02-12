@@ -70,6 +70,6 @@
     <!-- Encryption -->
     <string name="ENC_KEY">KEY</string>
     <string name="default_username">user</string>
-    <string name="default_password">password</string>
+    <string name="default_password">pass</string>
 
 </resources>

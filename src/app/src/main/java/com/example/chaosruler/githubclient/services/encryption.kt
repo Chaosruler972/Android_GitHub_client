@@ -78,7 +78,9 @@ object encryption
             val encoded = ReadFromFile("key.key",context) ?: return null
             val new_a = Base64.decode(encoded,Base64.DEFAULT)
             val crypto = Crypto(Options.TRANSFORMATION_SYMMETRIC)
-            val decrypted_from_file = crypto.decrypt(String(new_a), key_to_encrypt).toByteArray(Charset.forName("UTF-8"))
+            val decrypted_string_from_file = crypto.decrypt(String(new_a), key_to_encrypt)
+            val decrypted_from_file = decrypted_string_from_file.hexStringToByteArray()
+            Log.d("Key length Read:",decrypted_from_file.size.toString())
             return SecretKeySpec(decrypted_from_file,0,decrypted_from_file.size,"AES")
         }
         else // generate key and save to file
@@ -88,12 +90,25 @@ object encryption
             keyGen.init(256)
             val new_key = keyGen.generateKey()
             val encoded = new_key.encoded
-            val encoded_and_encrypted_to_file =  Base64.encode(crypto.encrypt(String(encoded), key_to_encrypt).toByteArray(Charset.forName("UTF-8")),Base64.DEFAULT)
+            Log.d("Key length Saved:",encoded.size.toString())
+            val encoded_and_encrypted_to_file =  Base64.encode(crypto.encrypt(encoded.toHex(), key_to_encrypt).toByteArray(Charset.forName("UTF-8")),Base64.DEFAULT)
             writeToFile(encoded_and_encrypted_to_file,"key.key",context)
             return new_key
         }
     }
 
+    /**
+     * Function done specificilly to this class, to convert Hex string to ByteArray
+     * @author Chaosruler
+     * @return a Bytearray that represents this String's hexstring
+     */
+    private fun String.hexStringToByteArray() = ByteArray(this.length / 2) { this.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
+
+    /**
+     * Function done specificilly to this class to convert ByteArray to HexString
+     * @return a Hexstring from this ByteArray
+     */
+    fun ByteArray.toHex() = this.joinToString(separator = "") { it.toInt().and(0xff).toString(16).padStart(2, '0') }
 
     /**
      * Function to read data from file
