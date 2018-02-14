@@ -412,6 +412,7 @@ abstract class local_SQL_Helper(
                 Log.d("SQL raw query",sql_query)
                 //c = db.rawQuery(sql_query, null)
                 c = db.query(TABLE_NAME,null,where_clause,where_args.toTypedArray(),null,null,null)
+
             }
             catch (e:SQLException)
             {
