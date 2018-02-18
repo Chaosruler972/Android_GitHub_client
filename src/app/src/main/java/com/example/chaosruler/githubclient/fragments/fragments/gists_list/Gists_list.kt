@@ -57,10 +57,11 @@ class Gists_list : Fragment() {
             /*
                 get all gists
              */
-            val vector: Vector<gist> = GitHub_remote_service.get_gists(username, context, 1)
+            val vector: Vector<gist> = GitHub_remote_service.get_gists(GitHub_remote_service.get_username(), context, 1)
             /*
                 divide into headers and data for expandable listview
              */
+            Log.d("Gists: ","Amount of gists loaded: " + vector.size.toString())
             val headers: Vector<String> = Vector()
             val map: HashMap<String, List<gist_file>> = HashMap()
             vector.forEach {

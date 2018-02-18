@@ -252,7 +252,10 @@ object GitHub_remote_service
             case response is invalid
          */
         if(response.statusCode!=200)
+        {
+            Log.d("Gists","Website returned error on request\nURL: $url")
             return vector
+        }
         /*
             get JSON data
          */
@@ -260,6 +263,7 @@ object GitHub_remote_service
         var response_text:String?//= String(response.data)
         @Suppress("CanBeVal")
         var response_array:JSONArray?// = JSONArray(response_text)
+        Log.d("Gists","Parsing Gist array")
         try
         {
             response_text = String(response.data)
@@ -269,6 +273,7 @@ object GitHub_remote_service
         {
             return vector
         }
+        Log.d("Gists","Parsing each gist")
         /*
             for Each GIST
          */
@@ -374,6 +379,11 @@ object GitHub_remote_service
      */
     fun get_login():String = client.user?:""
 
+    /**
+     * gets the client login (yes username lol)
+     * @return clients login (this time username) as opposed to email, empty string otherwise
+     */
+    fun get_username():String = this.user_service.user.login?:""
 
     /**
      * search for repos by string arguement, this is a recursive function iterated by page number

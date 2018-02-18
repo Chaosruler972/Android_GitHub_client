@@ -12,8 +12,8 @@
     <string name="issues_url">/repos/OWNER/REPO/issues</string>
     <string name="location_URL">/search/users?q=location:LOCATION</string>
 
-    <string name="AuthToken">\?client_id=a761695080ce97ff9395&amp;client_secret=93a3c7fb9bcd951f6e2f8409083301d43ae31a30</string>
-    <string name="AuthToken_addon">&amp;client_id=a761695080ce97ff9395&amp;client_secret=93a3c7fb9bcd951f6e2f8409083301d43ae31a30</string>
+    <string name="AuthToken">\?client_id=a761695080ce97ff9395&amp;client_secret=15157b3859e14ef097915f84ea8d7e3b0709f6cb</string>
+    <string name="AuthToken_addon">&amp;client_id=a761695080ce97ff9395&amp;client_secret=15157b3859e14ef097915f84ea8d7e3b0709f6cb</string>
 
     <string name="wiki_url">https://github.com/OWNER/REPO/wiki</string>
 
