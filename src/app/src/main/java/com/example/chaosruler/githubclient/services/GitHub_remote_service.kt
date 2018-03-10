@@ -510,8 +510,8 @@ object GitHub_remote_service
                 get general data (such as commit message, author name etcetra)
              */
             val comment_vector:Vector<commit_comment> = Vector()
-            val commit_message = it.commit.message?:""
-            val author = it.author.name?:""
+            val commit_message = it.commit?.message?:""
+            val author = it.author?.name?:""
             val date = it.commit.committer.date
             /*
                 case there are comments, we need to grab it from server manually like bi***
