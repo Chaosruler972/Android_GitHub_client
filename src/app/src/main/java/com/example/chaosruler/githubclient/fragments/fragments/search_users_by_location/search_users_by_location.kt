@@ -13,9 +13,11 @@ import android.view.ViewGroup
 import com.example.chaosruler.githubclient.R
 import kotlinx.android.synthetic.main.fragment_search_users_by_location.*
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import com.example.chaosruler.githubclient.activities.MainActivity
 import com.example.chaosruler.githubclient.services.GitHub_remote_service
+import org.eclipse.egit.github.core.User
 import java.util.*
 
 

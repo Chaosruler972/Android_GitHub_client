@@ -71,5 +71,6 @@
     <string name="ENC_KEY">KEY</string>
     <string name="default_username">user</string>
     <string name="default_password">pass</string>
+    <string name="sync_freq_default_value">1</string>
 
 </resources>

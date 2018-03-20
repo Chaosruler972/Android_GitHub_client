@@ -14,10 +14,9 @@
         android:text="@string/hello_name_familyname"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032" />
+        app:layout_constraintVertical_bias="0.004" />
 
     <!-- dimensions must be set manually due to an error with reading dimens before inflating -->
     <ImageView
@@ -37,18 +36,19 @@
         android:id="@+id/repos_listview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:scrollbars="horizontal|vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fragment_user_linear_height"
         android:layout_marginTop="@dimen/fragment_user_margintop"
@@ -62,18 +62,23 @@
         tools:ignore="UnknownIdInLayout">
 
         <TextView
+            android:id="@+id/name_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/fragment_user_marginend"
             android:layout_weight="1"
+            android:layout_marginTop="@dimen/fragment_user_layout_margin_top_on_list_menu"
             android:text="@string/repo_name"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+
+            />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/fragment_user_marginend"
             android:layout_weight="2"
+            android:layout_marginTop="@dimen/fragment_user_layout_margin_top_on_list_menu"
             android:text="@string/repo_create_date"
 
             android:textAlignment="center" />
@@ -84,6 +89,7 @@
             android:layout_marginEnd="@dimen/fragment_user_marginend"
             android:layout_weight="1"
             android:text="@string/repo_language"
+            android:layout_marginTop="@dimen/fragment_user_layout_margin_top_on_list_menu"
             android:textAlignment="center" />
 
         <TextView
@@ -92,6 +98,7 @@
             android:layout_marginEnd="@dimen/fragment_user_marginend"
             android:layout_weight="1"
             android:text="@string/repo_is_private"
+            android:layout_marginTop="@dimen/fragment_user_layout_margin_top_on_list_menu"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -104,10 +111,10 @@
         android:text="@string/user_email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/main_avatar"
-        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.091" />
+        app:layout_constraintVertical_bias="0.071" />
 
     <TextView
         android:id="@+id/user_repos_count"
@@ -120,7 +127,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206" />
+        app:layout_constraintVertical_bias="0.177" />
 
     <TextView
         android:id="@+id/user_location"
@@ -133,7 +140,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.153" />
+        app:layout_constraintVertical_bias="0.11" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -52,5 +52,6 @@
     <dimen name="item_issue_height">60dp</dimen>
     <dimen name="item_search_user_height">60dp</dimen>
     <dimen name="item_userrepos_height">60dp</dimen>
+    <dimen name="fragment_user_layout_margin_top_on_list_menu">20dp</dimen>
 
 </resources>

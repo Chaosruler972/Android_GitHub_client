@@ -155,7 +155,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
             bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)))
 
-
         }
         /*
                 on option selected event
