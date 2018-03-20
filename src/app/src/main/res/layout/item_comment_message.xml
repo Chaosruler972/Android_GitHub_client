@@ -32,6 +32,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/play_commit"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/play" />
 
 </LinearLayout>
