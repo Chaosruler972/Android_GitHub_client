@@ -11,6 +11,7 @@ import org.eclipse.egit.github.core.RepositoryCommit
 import org.eclipse.egit.github.core.RepositoryContents
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
+import org.eclipse.egit.github.core.client.RequestException
 import org.eclipse.egit.github.core.service.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -417,7 +418,15 @@ object GitHub_remote_service
             vector
         else
         {
-            vector.addAll(search_for_repos(search_arguements, page_number + 1,context))
+            try
+            {
+                vector.addAll(search_for_repos(search_arguements, page_number + 1,context))
+
+            }
+            catch (e: RequestException)
+            {
+
+            }
             vector
         }
     }
