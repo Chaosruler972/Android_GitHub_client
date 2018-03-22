@@ -58,7 +58,7 @@
     <string name="couldnt_get_country">Couldn\'t get country</string>
     <string name="user_avatar">User avatar</string>
     <string name="goto_user_page">Goto user page</string>
-    <string name="find_local_users">Find local users</string>
+    <string name="find_local_users">Local users</string>
     <string name="no_phone_number">No email address</string>
     <string name="user_id">id</string>
     <string name="no_location">Couldn\'t get location!</string>
@@ -72,5 +72,6 @@
     <string name="default_username">user</string>
     <string name="default_password">pass</string>
     <string name="sync_freq_default_value">1</string>
+    <string name="enter">Enter</string>
 
 </resources>

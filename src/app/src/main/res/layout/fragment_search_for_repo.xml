@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/fragment_search_txtview_marginend"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:text="@string/repo_language"
             android:textAlignment="center" />
 
@@ -67,6 +67,14 @@
             android:layout_weight="1"
             android:text="@string/repo_is_private"
             android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/fragment_search_txtview_marginend"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:text="@string/enter" />
 
     </LinearLayout>
 

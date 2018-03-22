@@ -55,8 +55,6 @@
                 android:text="@string/repo_files" />
 
 
-
-
             <android.support.design.widget.TabItem
                 android:id="@+id/repo_wiki"
                 android:layout_width="wrap_content"

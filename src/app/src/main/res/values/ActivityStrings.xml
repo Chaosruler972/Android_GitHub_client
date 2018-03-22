@@ -19,7 +19,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="tab_text_1">User Repository</string>
     <string name="tab_text_2">Gists</string>
-    <string name="tab_text_3">Search for a Repository</string>
+    <string name="tab_text_3">Search a Repo</string>
 
 
     <!--  moving to repo finder keys -->
@@ -28,7 +28,7 @@
 
     <!-- Activity repo finder strings -->
     <string name="repo_data">Data</string>
-    <string name="repo_wiki">Project page</string>
+    <string name="repo_wiki">web page</string>
     <string name="repo_files">Files</string>
 
     <!-- Activity display data -->

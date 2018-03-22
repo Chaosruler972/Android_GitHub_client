@@ -9,7 +9,7 @@
     <string name="repo_name">Name</string>
     <string name="repo_create_date">Create Date</string>
     <string name="repo_language">Language</string>
-    <string name="repo_is_private">Is Private</string>
+    <string name="repo_is_private">Private</string>
     <string name="user_email">Email: email</string>
     <string name="amount_of_repositries_repos_disk_usage_disk">Amount of Repositries: repos \nDisk Usage: disk KB</string>
     <string name="user_location">Location: location</string>
